@@ -1,19 +1,23 @@
-div {
+* {
+    margin: 0;
+    padding: 0;
+}
+
+#principal {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: repeat(5, 1fr);
     grid-template-areas: 
-    "header header header"
-    "aside main main"
-    "footer footer footer"
+    "header header header header header"
+    "aside main main main main"
+    "footer footer footer footer footer"
     ;
+    grid-template-rows: 1fr 5fr 1fr;
     height: 100vh;
     width: 100vw;
-    background-color: aqua;
 }
 
 header {
     grid-area: header;
-    background-color: blue;
 }
 
 aside {
