@@ -21,6 +21,11 @@ header {
     background-color: gold;
 }
 
+nav {
+    padding: 20px;
+    text-align: center;
+}
+
 aside {
     grid-area: aside;
     background-color: yellow;
@@ -28,7 +33,6 @@ aside {
 
 main {
     grid-area: main;
-    background-color: chartreuse;
     padding: 20px;
 }
 
@@ -39,6 +43,7 @@ footer {
     justify-content: center;
     grid-area: footer;
     background-color: powderblue;
+    padding: 20px;
 }
 
 h3 {
@@ -51,6 +56,7 @@ ul {
 
 a {
     text-decoration: none;
+    margin: 10px;
 }
 
 li {
@@ -64,4 +70,33 @@ li {
 
 #AbrirFecha {
     margin-bottom: 30px;
+}
+
+#inicio-cabeca {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: aquamarine;
+    height: 50px;
+    padding: 20px;
+}
+
+.cards {
+    display: flex;
+    gap: 10px;
+}
+
+.shop-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+input {
+    width: 50%;
+    height: 38px;
+    border-radius: 20px;
+    border: none;
+    outline: none;
+    padding-left: 15px;
 }
