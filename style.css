@@ -18,7 +18,7 @@
 
 header {
     grid-area: header;
-    background-color: gold;
+    background-color: turquoise;
 }
 
 nav {
@@ -28,7 +28,6 @@ nav {
 
 aside {
     grid-area: aside;
-    background-color: yellow;
 }
 
 main {
