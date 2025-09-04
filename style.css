@@ -3,6 +3,12 @@
     padding: 0;
 }
 
+body {
+    height: 100vh;
+    width: 100vw;
+    overflow-x: hidden;
+}
+
 #principal {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
@@ -73,7 +79,7 @@ li {
 
 #inicio-cabeca {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     background-color: aquamarine;
     height: 50px;
