@@ -1,107 +1,51 @@
-* {
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    height: 100vh;
-    width: 100vw;
-    overflow-x: hidden;
-}
-
+/* Correção do Layout Principal */
 #principal {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: 200px 1fr; /* Lateral fixa e Main ocupa o resto */
     grid-template-areas: 
-    "header header header header header"
-    "aside main main main main"
-    "footer footer footer footer footer"
-    ;
-    grid-template-rows: 2fr 5fr 1fr;
-    height: 100vh;
-    width: 100vw;
+        "header header"
+        "aside main"
+        "footer footer";
+    min-height: 100vh;
 }
 
-header {
-    grid-area: header;
-    background-color: turquoise;
-}
+header { grid-area: header; }
+aside { grid-area: aside; background-color: #f4f4f4; }
+main { grid-area: main; }
+footer { grid-area: footer; }
 
-nav {
-    padding: 20px;
-    text-align: center;
-}
-
-aside {
-    grid-area: aside;
-}
-
-main {
-    grid-area: main;
-    padding: 20px;
-}
-
-footer {
-    display: flex;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-    grid-area: footer;
-    background-color: powderblue;
-    padding: 20px;
-}
-
-h3 {
-    margin-bottom: 10px;
-}
-
-ul {
-    list-style-type: none;
-}
-
-a {
-    text-decoration: none;
-    margin: 10px;
-}
-
-li {
-    background-color: gold;
-    margin-top: 15px;
-}
-
-#Lateral {
-    padding: 14px;
-}
-
-#AbrirFecha {
-    margin-bottom: 30px;
-}
-
-#inicio-cabeca {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    background-color: aquamarine;
-    height: 50px;
-    padding: 20px;
-}
-
-.cards {
-    display: flex;
-    gap: 10px;
-}
-
+/* Ajuste dos Produtos para ficarem Lado a Lado */
 .shop-content {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Faz os produtos ficarem em colunas */
+    gap: 20px;
+    padding: 20px;
 }
 
-input {
-    width: 50%;
-    height: 38px;
-    border-radius: 20px;
-    border: none;
-    outline: none;
-    padding-left: 15px;
+/* Estilo da Aba do Carrinho */
+.cart-sidebar {
+    position: fixed;
+    top: 0;
+    right: -100%; /* Começa escondido à direita */
+    width: 350px;
+    height: 100%;
+    background-color: white;
+    box-shadow: -5px 0 15px rgba(0,0,0,0.2);
+    transition: 0.4s;
+    z-index: 1000;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.cart-sidebar.active {
+    right: 0; /* Desliza para dentro da tela */
+}
+
+.cart-items {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding: 10px 0;
 }
