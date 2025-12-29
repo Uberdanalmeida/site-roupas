@@ -49,3 +49,18 @@ footer { grid-area: footer; }
     border-bottom: 1px solid #eee;
     padding: 10px 0;
 }
+
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #222;
+    color: white;
+}
+
+header {
+    background-color: #222;
+    text-align: center;
+    color: white;
+    padding: 10px;
+}
+
