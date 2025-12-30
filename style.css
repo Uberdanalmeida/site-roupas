@@ -61,6 +61,21 @@ header {
     background-color: #222;
     text-align: center;
     color: white;
+}
+
+#cabeca {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#carrinho-pesquisa {
     padding: 10px;
+    font-size: 16px;
+    width: 500px;
+    border-radius: 5px;
+    border: none;
+    margin-left: 20px;
+    outline: none;
 }
 
