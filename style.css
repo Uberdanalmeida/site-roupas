@@ -1,3 +1,10 @@
+*  {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
 /* Correção do Layout Principal */
 #principal {
     display: grid;
@@ -9,11 +16,8 @@
     min-height: 100vh;
 }
 
-header { grid-area: header; }
 aside { grid-area: aside; background-color: #f4f4f4; }
 main { grid-area: main; }
-footer { grid-area: footer; }
-
 /* Ajuste dos Produtos para ficarem Lado a Lado */
 .shop-content {
     display: grid;
@@ -51,6 +55,7 @@ footer { grid-area: footer; }
 }
 
 footer {
+    grid-area: footer;
     text-align: center;
     padding: 10px;
     background-color: #222;
@@ -58,12 +63,13 @@ footer {
 }
 
 header {
-    background-color: #222;
-    text-align: center;
+    grid-area: header;
+    background-color: #222222;
     color: white;
 }
 
 #cabeca {
+    height: 80px;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -79,3 +85,191 @@ header {
     outline: none;
 }
 
+/* Configuração do Aside */
+#menu {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 260px;
+    background: #1a1a1a; /* Cor escura moderna */
+    color: white;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 4px 0 15px rgba(0,0,0,0.3);
+    z-index: 1000;
+}
+
+/* Estilo do cabeçalho do menu */
+#Lateral {
+    padding: 20px;
+}
+
+#btn-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 30px;
+}
+
+.menu-title {
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #888;
+    margin-bottom: 20px;
+    padding-left: 10px;
+}
+
+/* Lista de Links */
+#Lateral ul {
+    list-style: none;
+    padding: 0;
+}
+
+#Lateral li {
+    margin-bottom: 8px;
+}
+
+#Lateral li a {
+    text-decoration: none;
+    color: #ddd;
+    font-family: 'Segoe UI', sans-serif;
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+/* Efeito Hover */
+#Lateral li a:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    transform: translateX(10px);
+}
+
+.icon {
+    margin-right: 15px;
+    font-size: 1.2rem;
+}
+
+
+/* Estilo do botão de abrir */
+.open-btn {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 999;
+}
+
+/* Sidebar Escondida */
+#sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 280px;
+    background: #ffffff;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+    z-index: 1001;
+    transition: transform 0.4s ease-in-out; /* Animação suave */
+    transform: translateX(-100%); /* Começa fora da tela */
+}
+
+/* Classe que será adicionada pelo JS para mostrar o menu */
+#sidebar.active {
+    transform: translateX(0);
+}
+
+/* Estilização interna */
+.header-menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #eee;
+    font-weight: bold;
+}
+
+.close-btn {
+    font-size: 30px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+#Lateral ul {
+    list-style: none;
+    padding: 20px;
+}
+
+#Lateral li a {
+    display: block;
+    padding: 15px;
+    text-decoration: none;
+    color: #333;
+    font-family: sans-serif;
+    border-radius: 5px;
+    transition: background 0.2s;
+}
+
+#Lateral li a:hover {
+    background: #f5f5f5;
+    color: #000;
+}
+
+/* Overlay (fundo escuro) */
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.5);
+    display: none; /* Escondido por padrão */
+    z-index: 1000;
+}
+
+#sidebar.active + #overlay {
+    display: block;
+}
+
+/* .shop-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, auto));
+    gap: 1.5rem;
+}
+
+.product-box {
+    position: relative;
+}
+
+.product-box:hover {
+    padding: 10px;
+    border: 1px solid var(--text-color);
+    transition: .4s;
+}
+
+.product-img {
+    width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    margin-bottom: .5rem;
+}
+
+.product-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+   
+    margin-bottom: .5rem;
+}
+
+.product-price {
+    font-weight: 500;
+} */

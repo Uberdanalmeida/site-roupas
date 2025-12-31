@@ -42,7 +42,17 @@ function renderCart() {
     cartTotalElement.innerText = `$${total.toFixed(2)}`;
 }
 // Sua função original do Menu Lateral corrigida
-function MostrarMenu() {
-    const lateral = document.getElementById('Lateral');
-    lateral.style.display = (lateral.style.display === 'none') ? 'block' : 'none';
+function toggleMenu() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+    
+    // Alterna a classe 'active' no sidebar
+    sidebar.classList.toggle('active');
+    
+    // Mostra ou esconde o fundo escuro
+    if (sidebar.classList.contains('active')) {
+        overlay.style.display = 'block';
+    } else {
+        overlay.style.display = 'none';
+    }
 }
