@@ -240,7 +240,7 @@ header {
     display: block;
 }
 
-/* .shop-content {
+.shop-content {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, auto));
     gap: 1.5rem;
@@ -248,12 +248,6 @@ header {
 
 .product-box {
     position: relative;
-}
-
-.product-box:hover {
-    padding: 10px;
-    border: 1px solid var(--text-color);
-    transition: .4s;
 }
 
 .product-img {
