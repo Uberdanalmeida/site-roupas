@@ -61,6 +61,10 @@ main { grid-area: main; }
     padding: 10px 0;
 }
 
+#carrinho, #menu-btn {
+    cursor: pointer;
+}
+
 footer {
     grid-area: footer;
     text-align: center;
