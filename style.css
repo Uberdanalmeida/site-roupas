@@ -1,85 +1,30 @@
-*  {
+/* 1. RESET E GERAL */
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.bx-search {
-    position: relative;
-    left: -30px;
-    top: 3px;
-    font-size: 20px;
-    color: #888;
-}
-/* Correção do Layout Principal */
 #principal {
     display: grid;
-    grid-template-columns: 200px 1fr; /* Lateral fixa e Main ocupa o resto */
+    grid-template-columns: 200px 1fr;
     grid-template-areas: 
         "header header"
         "aside main"
         "footer footer";
     min-height: 100vh;
 }
-
-aside { grid-area: aside; background-color: #f4f4f4; }
-main { grid-area: main; }
-/* Ajuste dos Produtos para ficarem Lado a Lado */
-.shop-content {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Faz os produtos ficarem em colunas */
-    gap: 20px;
-    padding: 20px;
-}
-/* Estilo da Aba do Carrinho */
-.cart-sidebar {
-    position: fixed;
-    top: 0;
-    right: -100%; /* Começa escondido à direita */
-    width: 350px;
-    height: 100%;
-    background-color: white;
-    box-shadow: -5px 0 15px rgba(0,0,0,0.2);
-    transition: 0.4s;
-    z-index: 1000;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-}
-
-.cart-sidebar.active {
-    right: 0; /* Desliza para dentro da tela */
-}
-
-.cart-items {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid #eee;
-    padding: 10px 0;
-}
-
-#carrinho, #menu-btn {
-    cursor: pointer;
-}
-
-footer {
-    grid-area: footer;
-    text-align: center;
-    padding: 10px;
-    background-color: #222;
-    color: white;
-}
-
+/* 2. HEADER E BARRA DE PESQUISA */
 header {
     grid-area: header;
-    background-color: #222222;
+    background-color: #222;
     color: white;
+    height: 80px;
 }
 
 #cabeca {
-    height: 80px;
+    height: 100%;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -91,87 +36,47 @@ header {
     width: 500px;
     border-radius: 5px;
     border: none;
-    margin-left: 20px;
     outline: none;
 }
-/* Configuração do Aside */
-#menu {
-    position: fixed;
-    left: 0;
-    top: 0;
-    height: 100vh;
-    width: 260px;
-    background: #1a1a1a; /* Cor escura moderna */
-    color: white;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    box-shadow: 4px 0 15px rgba(0,0,0,0.3);
-    z-index: 1000;
-}
-/* Estilo do cabeçalho do menu */
-#Lateral {
-    padding: 20px;
-}
 
-#btn-toggle {
-    background: none;
-    border: none;
-    cursor: pointer;
-    margin-bottom: 30px;
-}
-
-.menu-title {
-    font-family: 'Segoe UI', sans-serif;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 2px;
+.bx-search {
+    position: relative;
+    left: -35px;
+    top: 3px;
+    font-size: 20px;
     color: #888;
-    margin-bottom: 20px;
-    padding-left: 10px;
-}
-/* Lista de Links */
-#Lateral ul {
-    list-style: none;
-    padding: 0;
 }
 
-#Lateral li {
-    margin-bottom: 8px;
-}
-
-#Lateral li a {
-    text-decoration: none;
-    color: #ddd;
-    font-family: 'Segoe UI', sans-serif;
-    display: flex;
-    align-items: center;
-    padding: 12px 15px;
-    border-radius: 8px;
-    transition: 0.3s;
-}
-/* Efeito Hover */
-#Lateral li a:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: #fff;
-    transform: translateX(10px);
-}
-
-.icon {
-    margin-right: 15px;
-    font-size: 1.2rem;
-}
-/* Estilo do botão de abrir */
-.open-btn {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 10px;
+#carrinho-container {
+    position: relative;
     cursor: pointer;
-    z-index: 999;
 }
-/* Sidebar Escondida */
+
+#cart-count {
+    position: absolute;
+    top: -5px;
+    right: -10px;
+    background-color: #ff0000;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    display: none; /* Ativado via JS (.show) */
+    justify-content: center;
+    align-items: center;
+}
+
+#cart-count.show { 
+    display: flex; 
+}
+/* 3. MENU LATERAL (SIDEBAR ESQUERDA) */
+aside { 
+    grid-area: aside; 
+    background-color: #f4f4f4; 
+}
+
 #sidebar {
     position: fixed;
     left: 0;
@@ -181,33 +86,17 @@ header {
     background: #ffffff;
     box-shadow: 2px 0 10px rgba(0,0,0,0.1);
     z-index: 1001;
-    transition: transform 0.4s ease-in-out; /* Animação suave */
-    transform: translateX(-100%); /* Começa fora da tela */
-}
-/* Classe que será adicionada pelo JS para mostrar o menu */
-#sidebar.active {
-    transform: translateX(0);
-}
-/* Estilização interna */
-.header-menu {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-    border-bottom: 1px solid #eee;
-    font-weight: bold;
+    transition: transform 0.4s ease-in-out;
+    transform: translateX(-100%);
 }
 
-.close-btn {
-    font-size: 30px;
-    background: none;
-    border: none;
-    cursor: pointer;
+#sidebar.active { 
+    transform: translateX(0); 
 }
 
-#Lateral ul {
-    list-style: none;
-    padding: 20px;
+#Lateral ul { 
+    list-style: none; 
+    padding: 20px; 
 }
 
 #Lateral li a {
@@ -215,39 +104,44 @@ header {
     padding: 15px;
     text-decoration: none;
     color: #333;
-    font-family: sans-serif;
+    transition: 0.3s;
     border-radius: 5px;
-    transition: background 0.2s;
 }
 
 #Lateral li a:hover {
     background: #f5f5f5;
-    color: #000;
-}
-/* Overlay (fundo escuro) */
-#overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0,0,0,0.5);
-    display: none; /* Escondido por padrão */
-    z-index: 1000;
+    padding-left: 25px;
 }
 
-#sidebar.active + #overlay {
-    display: block;
+#overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.5);
+    display: none;
+    z-index: 1000;
+}
+/* 4. CONTEÚDO PRINCIPAL E PRODUTOS */
+main { 
+    grid-area: main; 
+    padding: 20px; 
 }
 
 .shop-content {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, auto));
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 1.5rem;
 }
 
 .product-box {
     position: relative;
+    text-align: center;
+    padding: 10px;
+    transition: 0.3s;
+}
+
+.product-box:hover { 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
 }
 
 .product-img {
@@ -257,72 +151,149 @@ header {
     margin-bottom: .5rem;
 }
 
-.product-title {
-    font-size: 1.1rem;
-    font-weight: 600;
-   
-    margin-bottom: .5rem;
-}
-
-.product-price {
-    font-weight: 500;
-}
-/* Estilização da Paginação */
-.pagination {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 40px 0;
-    gap: 15px;
-}
-
-.pagination button {
-    padding: 10px 20px;
-    border: 1px solid #222;
-    background-color: #fff;
-    color: #222;
+.add-cart {
     cursor: pointer;
-    border-radius: 5px;
+    font-size: 1.5rem;
+    color: #2d005d;
+}
+/* 5. CARRINHO LATERAL (ESTILO HERING/MODERNO) */
+.cart-sidebar {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 80%;
+    max-width: 1000px;
+    height: 100%;
+    background-color: #f4f4f4;
+    box-shadow: -5px 0 15px rgba(0,0,0,0.2);
+    transition: 0.4s;
+    z-index: 1001;
+    display: flex;
+    flex-direction: column;
+}
+
+.cart-sidebar.active { 
+    right: 0; 
+}
+
+.cart-header {
+    padding: 20px;
+    background: white;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #eee;
+}
+
+.cart-container {
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    gap: 20px;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.cart-item {
+    background: white;
+    padding: 15px;
     display: flex;
     align-items: center;
-    transition: 0.3s;
-    font-weight: 600;
+    gap: 15px;
+    border-radius: 4px;
+    margin-bottom: 10px;
 }
 
-.pagination button:hover:not(:disabled) {
-    background-color: #222;
-    color: #fff;
+.cart-item img { 
+    width: 70px; 
+    height: 90px; 
+    object-fit: cover; 
+}
+/* 6. RESUMO E FRETE */
+.cart-summary {
+    background: white;
+    padding: 20px;
+    border-radius: 4px;
+    height: fit-content;
 }
 
-.pagination button:disabled {
-    border-color: #ccc;
-    color: #ccc;
-    cursor: not-allowed;
+.shipping-box {
+    background: #fff;
+    padding: 15px;
+    border: 1px solid #eee;
+    border-left: 4px solid #2d005d;
+    margin-bottom: 20px;
 }
 
-.page-numbers {
+.shipping-input-group { 
+    display: flex; 
+    gap: 5px; 
+    margin-top: 10px; 
+}
+
+.shipping-input-group input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ddd;
+}
+
+.btn-consultar {
+    padding: 8px 12px;
+    background: white;
+    border: 1px solid #2d005d;
+    color: #2d005d;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.summary-row {
     display: flex;
-    gap: 10px;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    font-size: 14px;
 }
+
+.total-row {
+    border-top: 1px solid #eee;
+    padding-top: 15px;
+    font-weight: bold;
+    font-size: 18px;
+    color: #000;
+}
+
+#checkout-btn {
+    width: 100%;
+    background-color: #2d005d;
+    color: white;
+    padding: 15px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+.savings-tag {
+    background-color: #d8ff5d;
+    padding: 8px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: bold;
+    margin: 15px 0;
+}
+/* 7. PAGINAÇÃO E FOOTER */
+.pagination { display: flex; justify-content: center; padding: 40px; gap: 10px; }
 
 .page-number {
-    width: 40px;
-    height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 1px solid #eee;
+    width: 35px; height: 35px;
+    display: flex; justify-content: center; align-items: center;
+    border: 1px solid #ddd;
     cursor: pointer;
-    border-radius: 5px;
-    transition: 0.3s;
 }
 
-.page-number:hover {
-    background-color: #f4f4f4;
-}
+.page-number.active { background: #222; color: white; }
 
-.page-number.active {
+footer {
+    grid-area: footer;
+    text-align: center;
+    padding: 20px;
     background-color: #222;
     color: white;
-    border-color: #222;
 }
