@@ -270,6 +270,15 @@ main {
     text-transform: uppercase;
 }
 
+#checkout-btn:hover {
+    background-color: #1e003d; /* Roxo ainda mais escuro */
+    transform: scale(1.02); /* Aumenta ligeiramente ao passar o rato */
+}
+
+#checkout-btn:active {
+    transform: scale(0.98); /* Efeito de clique */
+}
+
 .savings-tag {
     background-color: #d8ff5d;
     padding: 8px;
@@ -279,16 +288,58 @@ main {
     margin: 15px 0;
 }
 /* 7. PAGINAÇÃO E FOOTER */
-.pagination { display: flex; justify-content: center; padding: 40px; gap: 10px; }
-
-.page-number {
-    width: 35px; height: 35px;
-    display: flex; justify-content: center; align-items: center;
-    border: 1px solid #ddd;
-    cursor: pointer;
+.pagination { 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; /* Alinha verticalmente números e setas */
+    padding: 40px; 
+    gap: 8px; 
 }
 
-.page-number.active { background: #222; color: white; }
+/* Estilo comum para números e botões de texto */
+.page-number, .btn-nav {
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    transition: 0.3s;
+    background: white;
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+/* Estilo específico para os quadrados dos números */
+.page-number {
+    width: 35px; 
+    height: 35px;
+}
+
+/* Estilo específico para Anterior e Próximo (largura automática baseada no texto) */
+.btn-nav {
+    padding: 0 15px;
+    height: 35px;
+}
+
+/* Efeito de Hover e Ativo */
+.page-number:hover, .btn-nav:hover {
+    background-color: #f4f4f4;
+    border-color: #222;
+}
+
+.page-number.active { 
+    background: #222; 
+    color: white; 
+    border-color: #222;
+}
+
+/* Estilo para quando o botão estiver desativado (ex: Anterior na página 1) */
+.btn-nav.disabled {
+    color: #ccc;
+    border-color: #eee;
+    cursor: not-allowed;
+}
 
 footer {
     grid-area: footer;
@@ -296,4 +347,114 @@ footer {
     padding: 20px;
     background-color: #222;
     color: white;
+}
+/* Animação do Spinner */
+.spinner {
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(45, 0, 93, 0.3);
+    border-radius: 50%;
+    border-top-color: #2d005d;
+    animation: spin 1s ease-in-out infinite;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 8px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Estilo para desativar o botão enquanto carrega */
+.btn-consultar:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* --- RESPONSIVIDADE (CELULARES E TABLETS) --- */
+
+@media (max-width: 992px) {
+    /* 1. Ajuste do Carrinho: Coluna Única */
+    .cart-sidebar {
+        width: 100%; /* Ocupa a tela toda no celular */
+    }
+
+    .cart-container {
+        grid-template-columns: 1fr; /* Itens e Resumo ficam um embaixo do outro */
+        padding: 10px;
+    }
+
+    .cart-summary {
+        margin-top: 20px;
+        position: sticky;
+        bottom: 0;
+        box-shadow: 0 -5px 15px rgba(0,0,0,0.1);
+    }
+}
+
+@media (max-width: 768px) {
+    /* 2. Layout Principal: Esconde o Aside Fixo */
+    #principal {
+        grid-template-columns: 1fr;
+        grid-template-areas: 
+            "header"
+            "main"
+            "footer";
+    }
+
+    aside {
+        display: none; /* Esconde a lateral padrão para usar apenas o menu sanduíche */
+    }
+
+    /* 3. Header: Ajuste da Pesquisa */
+    #cabeca {
+        flex-wrap: wrap;
+        height: auto;
+        padding: 15px;
+        gap: 15px;
+    }
+
+    #carrinho-pesquisa {
+        width: 80%; /* Barra de busca ocupa mais espaço no celular */
+        order: 3; /* Move a busca para baixo dos ícones no mobile */
+    }
+
+    .bx-search {
+        order: 4;
+        left: -40px;
+        top: 12px;
+    }
+
+    /* 4. Vitrine: 2 produtos por linha */
+    .shop-content {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        padding: 10px;
+    }
+
+    .product-title {
+        font-size: 0.9rem;
+    }
+
+    /* 5. Paginação: Simplificada */
+    .page-numbers span:not(.active) {
+        display: none; /* Esconde alguns números para não quebrar a linha */
+    }
+}
+
+@media (max-width: 480px) {
+    /* 6. Itens do Carrinho: Compactos */
+    .cart-item {
+        padding: 10px;
+        gap: 10px;
+    }
+
+    .cart-item img {
+        width: 50px;
+        height: 70px;
+    }
+
+    .cart-item-info h3 {
+        font-size: 12px;
+    }
 }

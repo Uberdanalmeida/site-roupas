@@ -1,34 +1,24 @@
-// --- 1. CONFIGURAÇÕES E ESTADO GLOBAL ---
+// --- 1. ESTADO GLOBAL ---
 let cart = [];
 let valorFrete = 0;
 
+// Elementos do DOM
 const cartSidebar = document.getElementById('cart-sidebar');
 const cartIcon = document.getElementById('carrinho');
 const closeCart = document.getElementById('close-cart');
 const cartItemsContainer = document.getElementById('cart-items');
 const cartTotalElement = document.getElementById('cart-total');
 
-const produtosPadrao = [
-    { title: "Camiseta", price: 40.00, img: "./imagens/camiseta.jpg" },
-    { title: "Sapato", price: 79.90, img: "./imagens/sapato.jpg" },
-    { title: "Camiseta V2", price: 39.90, img: "./imagens/camiseta.jpg" },
-    { title: "Tênis", price: 150.00, img: "./imagens/sapato.jpg" },
-    { title: "Chinelo", price: 50.00, img: "./imagens/camiseta.jpg" },
-    { title: "Bicicleta", price: 1550.00, img: "./imagens/sapato.jpg" },
-    { title: "Calça", price: 59.90, img: "./imagens/camiseta.jpg" },
-    { title: "Blusa", price: 80.00, img: "./imagens/sapato.jpg" }
-];
-
 // --- 2. INICIALIZAÇÃO ---
 document.addEventListener('DOMContentLoaded', () => {
     carregarCarrinhoSalvo();
+    vincularEventosCarrinho();
     vincularEventosPaginas();
-    vincularEventosCarrinho(); // Garante que os produtos iniciais do HTML funcionem
 });
 
-// --- 3. FUNÇÕES DE INTERFACE (MENU E CARRINHO) ---
-cartIcon.onclick = () => cartSidebar.classList.add('active');
-closeCart.onclick = () => cartSidebar.classList.remove('active');
+// --- 3. FUNÇÕES DE NAVEGAÇÃO ---
+if(cartIcon) cartIcon.onclick = () => cartSidebar.classList.add('active');
+if(closeCart) closeCart.onclick = () => cartSidebar.classList.remove('active');
 
 function toggleMenu() {
     const sidebar = document.getElementById('sidebar');
@@ -50,14 +40,28 @@ function removeFromCart(index) {
     renderCart();
 }
 
+function salvarCarrinho() {
+    localStorage.setItem('meuCarrinho', JSON.stringify(cart));
+}
+
+function carregarCarrinhoSalvo() {
+    const dados = localStorage.getItem('meuCarrinho');
+    if (dados) {
+        cart = JSON.parse(dados);
+        renderCart();
+    }
+}
+
 function atualizarContador() {
     const contador = document.getElementById('cart-count');
     if (contador) {
         contador.innerText = cart.length;
-        contador.classList.toggle('show', cart.length > 0);
+        if (cart.length > 0) contador.classList.add('show');
+        else contador.classList.remove('show');
     }
 }
 
+// --- 5. RENDERIZAÇÃO DO CARRINHO (AQUI ESTÁ O BOTÃO) ---
 function renderCart() {
     salvarCarrinho();
     atualizarContador();
@@ -69,7 +73,7 @@ function renderCart() {
                 <p>Seu carrinho está vazio.</p>
                 <button onclick="cartSidebar.classList.remove('active')" style="margin-top:20px; padding:10px 20px; cursor:pointer;">Voltar para a loja</button>
             </div>`;
-        cartTotalElement.innerText = "R$ 0,00";
+        if(cartTotalElement) cartTotalElement.innerText = "R$ 0,00";
         return;
     }
 
@@ -112,90 +116,111 @@ function renderCart() {
                     <span>R$ ${total.toFixed(2)}</span>
                 </div>
                 <div class="savings-tag">💰 Você está economizando R$ 54,00</div>
-                <button id="checkout-btn">Finalizar Compra</button>
+                <button id="checkout-btn" onclick="enviarWhatsApp()">Finalizar Compra</button>
             </div>
         </div>
     `;
-    cartTotalElement.innerText = `R$ ${total.toFixed(2)}`;
+    if(cartTotalElement) cartTotalElement.innerText = `R$ ${total.toFixed(2)}`;
 }
 
-// --- 5. FRETE E API ---
+// --- 6. WHATSAPP E FRETE ---
+function enviarWhatsApp() {
+    const meuNumero = "5511999999999"; // <-- TROQUE PELO SEU NÚMERO AQUI
+    let mensagem = `*Novo Pedido - Loja Uberdan*\n\n*Produtos:*\n`;
+    
+    cart.forEach(item => { mensagem += `- ${item.title}: R$ ${item.price.toFixed(2)}\n`; });
+
+    const subtotal = cart.reduce((acc, item) => acc + item.price, 0);
+    mensagem += `\n*Total:* R$ ${(subtotal + valorFrete).toFixed(2)}`;
+
+    const url = `https://api.whatsapp.com/send?phone=${meuNumero}&text=${encodeURIComponent(mensagem)}`;
+    window.open(url, '_blank');
+}
+
 async function consultarFrete() {
     const input = document.getElementById('cep-input');
+    if(!input) return;
     const cep = input.value.replace(/\D/g, '');
 
-    if (cep.length !== 8) {
-        alert("Digite um CEP válido.");
-        return;
-    }
+    if (cep.length !== 8) { alert("CEP Inválido"); return; }
 
     try {
         const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
         const dados = await response.json();
-
         if (dados.erro) throw new Error();
 
         valorFrete = 11.95;
         localStorage.setItem('cepSalvo', cep);
         renderCart();
-
-        const box = document.querySelector('.shipping-box');
-        const info = document.createElement('p');
-        info.style.cssText = "font-size: 12px; color: #555; margin-top: 10px;";
-        info.innerHTML = `📍 ${dados.logradouro}, ${dados.localidade}-${dados.uf}<br><strong>Chega em até 5 dias úteis</strong>`;
-        box.appendChild(info);
-
     } catch {
         alert("Erro ao buscar CEP.");
     }
 }
 
-// --- 6. PERSISTÊNCIA (LOCALSTORAGE) ---
-function salvarCarrinho() {
-    localStorage.setItem('meuCarrinho', JSON.stringify(cart));
-}
-
-function carregarCarrinhoSalvo() {
-    const dados = localStorage.getItem('meuCarrinho');
-    if (dados) {
-        cart = JSON.parse(dados);
-        renderCart();
-    }
-}
-
-// --- 7. LOJA E PAGINAÇÃO ---
+// --- 7. EVENTOS DA LOJA ---
 function vincularEventosCarrinho() {
     document.querySelectorAll('.add-cart').forEach(button => {
         button.onclick = (e) => {
             const box = e.target.closest('.product-box');
             const title = box.querySelector('.product-title').innerText;
-            const price = parseFloat(box.querySelector('.price').innerText.replace(/[R$ ]/g, ''));
+            const priceText = box.querySelector('.price').innerText.replace('R$', '').replace('$', '').trim();
             const img = box.querySelector('.product-img').src;
-            addToCart(title, price, img);
+            addToCart(title, parseFloat(priceText), img);
         };
     });
-}
-
-function carregarProdutos(pagina) {
-    const shopContent = document.querySelector('.shop-content');
-    shopContent.innerHTML = produtosPadrao.map(prod => `
-        <div class="product-box">
-            <img src="${prod.img}" alt="" class="product-img">
-            <h2 class="product-title">${prod.title} (Pág ${pagina})</h2>
-            <span class="price">R$ ${prod.price.toFixed(2)}</span>
-            <i class='bx bx-shopping-bag add-cart'></i>
-        </div>
-    `).join('');
-    vincularEventosCarrinho();
 }
 
 function vincularEventosPaginas() {
     document.querySelectorAll('.page-number').forEach(btn => {
         btn.onclick = function() {
-            document.querySelectorAll('.page-number').forEach(p => p.classList.remove('active'));
-            this.classList.add('active');
-            carregarProdutos(this.innerText);
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            const n = this.innerText;
+            // Aqui você chamaria a função de carregar produtos da página N
+            console.log("Página " + n);
         };
     });
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+    const paginationContainer = document.querySelector(".pagination");
+    const pageNumbers = document.querySelectorAll(".page-number");
+    const prevBtn = document.querySelector(".btn-nav:first-child");
+    const nextBtn = document.querySelector(".btn-nav:last-child");
+
+    let currentPage = 1;
+    const totalPages = pageNumbers.length;
+
+    function updatePagination(newPage) {
+        if (newPage < 1 || newPage > totalPages) return;
+
+        currentPage = newPage;
+
+        // Atualiza a classe active nos números
+        pageNumbers.forEach((num, index) => {
+            num.classList.toggle("active", index + 1 === currentPage);
+        });
+
+        // Desativa botões de navegação se chegar nos limites
+        prevBtn.classList.toggle("disabled", currentPage === 1);
+        nextBtn.classList.toggle("disabled", currentPage === totalPages);
+
+        // Aqui você chamaria a função para carregar os produtos da página 'currentPage'
+        console.log("Navegando para a página:", currentPage);
+    }
+
+    // Clique nos números
+    pageNumbers.forEach((num, index) => {
+        num.addEventListener("click", () => updatePagination(index + 1));
+    });
+
+    // Clique no Anterior
+    prevBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        updatePagination(currentPage - 1);
+    });
+
+    // Clique no Próxima
+    nextBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        updatePagination(currentPage + 1);
+    });
+}); 
