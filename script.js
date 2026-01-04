@@ -303,3 +303,40 @@ function atualizarContador() {
         }
     }
 }
+
+// --- LÓGICA DO MODAL DE LOGIN ---
+const loginModal = document.getElementById('login-modal');
+const loginBtn = document.querySelector('.login-container'); // O container que criamos antes
+const closeLogin = document.getElementById('close-login');
+
+// Abrir modal
+if (loginBtn) {
+    loginBtn.onclick = () => {
+        loginModal.style.display = 'flex';
+    };
+}
+
+// Fechar ao clicar no X
+if (closeLogin) {
+    closeLogin.onclick = () => {
+        loginModal.style.display = 'none';
+    };
+}
+
+// Fechar ao clicar fora do modal
+window.onclick = (event) => {
+    if (event.target == loginModal) {
+        loginModal.style.display = 'none';
+    }
+}
+
+// Simular Login
+const loginForm = document.getElementById('login-form');
+if (loginForm) {
+    loginForm.onsubmit = (e) => {
+        e.preventDefault();
+        const email = document.getElementById('email').value;
+        alert(`Bem-vindo, ${email}! Login realizado com sucesso.`);
+        loginModal.style.display = 'none';
+    };
+}
