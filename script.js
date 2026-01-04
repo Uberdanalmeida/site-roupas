@@ -340,3 +340,60 @@ if (loginForm) {
         loginModal.style.display = 'none';
     };
 }
+
+// --- ELEMENTOS ---
+const registerModal = document.getElementById('register-modal');
+const btnGoToRegister = document.querySelector('.form-footer a'); // Link no modal de login
+const btnGoToLogin = document.getElementById('go-to-login'); // Link no modal de cadastro
+
+// --- ABRIR/FECHAR CADASTRO ---
+btnGoToRegister.onclick = (e) => {
+    e.preventDefault();
+    loginModal.style.display = 'none';
+    registerModal.style.display = 'flex';
+};
+
+btnGoToLogin.onclick = (e) => {
+    e.preventDefault();
+    registerModal.style.display = 'none';
+    loginModal.style.display = 'flex';
+};
+
+// --- SALVAR CADASTRO (Lógica de Persistência) ---
+document.getElementById('register-form').onsubmit = (e) => {
+    e.preventDefault();
+    
+    const newUser = {
+        name: document.getElementById('reg-name').value,
+        email: document.getElementById('reg-email').value,
+        password: document.getElementById('reg-password').value
+    };
+
+    // Salva no LocalStorage como uma string JSON
+    localStorage.setItem('usuarioCadastrado', JSON.stringify(newUser));
+    
+    alert("Conta criada com sucesso! Agora faça seu login.");
+    registerModal.style.display = 'none';
+    loginModal.style.display = 'flex';
+};
+
+// --- VALIDAR LOGIN ---
+document.getElementById('login-form').onsubmit = (e) => {
+    e.preventDefault();
+    
+    const emailLogin = document.getElementById('email').value;
+    const passLogin = document.getElementById('password').value;
+    
+    // Recupera os dados salvos
+    const userSalvo = JSON.parse(localStorage.getItem('usuarioCadastrado'));
+
+    if (userSalvo && emailLogin === userSalvo.email && passLogin === userSalvo.password) {
+        alert(`Bem-vindo, ${userSalvo.name}!`);
+        loginModal.style.display = 'none';
+        
+        // Atualiza o texto "Entrar" no cabeçalho para o nome do usuário
+        document.querySelector('.login-container span').innerText = `Olá, ${userSalvo.name.split(' ')[0]}`;
+    } else {
+        alert("E-mail ou senha incorretos!");
+    }
+};
