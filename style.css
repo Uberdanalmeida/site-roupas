@@ -295,7 +295,6 @@ main {
     padding: 40px; 
     gap: 8px; 
 }
-
 /* Estilo comum para números e botões de texto */
 .page-number, .btn-nav {
     display: flex; 
@@ -309,19 +308,16 @@ main {
     text-decoration: none;
     font-size: 14px;
 }
-
 /* Estilo específico para os quadrados dos números */
 .page-number {
     width: 35px; 
     height: 35px;
 }
-
 /* Estilo específico para Anterior e Próximo (largura automática baseada no texto) */
 .btn-nav {
     padding: 0 15px;
     height: 35px;
 }
-
 /* Efeito de Hover e Ativo */
 .page-number:hover, .btn-nav:hover {
     background-color: #f4f4f4;
@@ -333,12 +329,45 @@ main {
     color: white; 
     border-color: #222;
 }
-
 /* Estilo para quando o botão estiver desativado (ex: Anterior na página 1) */
 .btn-nav.disabled {
     color: #ccc;
     border-color: #eee;
     cursor: not-allowed;
+}
+/* Container dos resultados */
+.search-results {
+    position: absolute;
+    background: white;
+    width: 250px;
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    border-top: none;
+    z-index: 1000;
+    display: none; /* Escondido por padrão */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+/* Item individual da lista */
+.search-item {
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    color: #333;
+    font-size: 14px;
+}
+
+.search-item:hover {
+    background-color: #f0f0f0;
+}
+
+.search-item img {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+    object-fit: cover;
 }
 
 footer {

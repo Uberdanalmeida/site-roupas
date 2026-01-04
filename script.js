@@ -224,3 +224,57 @@ document.addEventListener("DOMContentLoaded", () => {
         updatePagination(currentPage + 1);
     });
 }); 
+// --- LÓGICA DE PESQUISA DINÂMICA ---
+const inputPesquisa = document.getElementById('carrinho-pesquisa');
+const listaResultados = document.getElementById('search-results');
+
+inputPesquisa.addEventListener('input', () => {
+    const termo = inputPesquisa.value.toLowerCase();
+    listaResultados.innerHTML = ''; // Limpa resultados anteriores
+
+    if (termo.length > 0) {
+        // Pega todos os produtos que estão no HTML no momento
+        const produtos = document.querySelectorAll('.product-box');
+        let achou = false;
+
+        produtos.forEach(produto => {
+            const nome = produto.querySelector('.product-title').innerText;
+            const preco = produto.querySelector('.price').innerText;
+            const imagem = produto.querySelector('.product-img').src;
+
+            if (nome.toLowerCase().includes(termo)) {
+                achou = true;
+                const item = document.createElement('div');
+                item.className = 'search-item';
+                item.innerHTML = `
+                    <img src="${imagem}">
+                    <div>
+                        <strong>${nome}</strong><br>
+                        <small>${preco}</small>
+                    </div>
+                `;              
+                // Ao clicar no item da pesquisa
+                item.onclick = () => {
+                    inputPesquisa.value = nome;
+                    listaResultados.style.display = 'none';
+                    // Scroll até o produto original na página
+                    produto.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    produto.style.border = "2px solid #ff0000"; // Destaque temporário
+                    setTimeout(() => produto.style.border = "none", 2000);
+                };
+
+                listaResultados.appendChild(item);
+            }
+        });
+
+        listaResultados.style.display = achou ? 'block' : 'none';
+    } else {
+        listaResultados.style.display = 'none';
+    }
+});
+// Fechar lista ao clicar fora
+document.addEventListener('click', (e) => {
+    if (e.target !== inputPesquisa) {
+        listaResultados.style.display = 'none';
+    }
+});
