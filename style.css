@@ -30,6 +30,25 @@ header {
     align-items: center;
 }
 
+.header-menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px; /* Adiciona espaço interno */
+    background-color: #f9f9f9;
+    border-bottom: 1px solid #eee;
+}
+
+.header-menu span {
+    font-weight: bold;
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+}
+
+#carrinho, #menu-btn {
+    cursor: pointer;
+}
+
 #carrinho-pesquisa {
     padding: 10px;
     font-size: 16px;
@@ -40,6 +59,7 @@ header {
 }
 
 .bx-search {
+    cursor: pointer;
     position: relative;
     left: -35px;
     top: 3px;
