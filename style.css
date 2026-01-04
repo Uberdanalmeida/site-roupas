@@ -33,8 +33,8 @@ header {
 #carrinho-pesquisa {
     padding: 10px;
     font-size: 16px;
-    width: 500px;
-    border-radius: 5px;
+    width: 700px;
+    border-radius: 15px;
     border: none;
     outline: none;
 }
@@ -45,11 +45,6 @@ header {
     top: 3px;
     font-size: 20px;
     color: #888;
-}
-
-#carrinho-container {
-    position: relative;
-    cursor: pointer;
 }
 
 #cart-count {
