@@ -14,15 +14,27 @@
     <div id="principal">
         <header>
             <div id="cabeca">
-                    <span class="material-symbols-outlined" id="menu-btn" onclick="toggleMenu()">menu</span>
-                    <span>E-COMMERCE</span>
-                    <span>
-                        <input type="text" id="carrinho-pesquisa" placeholder="Pesquisar produtos..." autocomplete="off">
-                        <i class='bx bx-search'></i> 
-                        <div id="search-results" class="search-results"></div> 
-                    </span>
-                    <img id="carrinho" src="imagens/carrinho-de-compras.png" alt="">              
-            </div>
+    <span class="material-symbols-outlined" id="menu-btn" onclick="toggleMenu()">menu</span>
+    
+    <span>E-COMMERCE</span>
+
+    <span>
+        <input type="text" id="carrinho-pesquisa" placeholder="Pesquisar produtos..." autocomplete="off">
+        <i class='bx bx-search'></i> 
+        <div id="search-results" class="search-results"></div> 
+    </span>
+
+    <div class="login-container">
+        <i class='bx bx-user-circle' style="font-size: 30px;"></i>
+        <span>Entrar</span>
+        <i class='bx bx-chevron-down'></i>
+    </div>
+
+    <div class="cart-icon-wrapper">
+        <img id="carrinho" src="imagens/carrinho-de-compras.png" alt="Carrinho">
+        <span id="cart-count">0</span>
+    </div>
+</div>
         </header> 
 
         <aside id="sidebar" class="sidebar-hidden">

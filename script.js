@@ -22,9 +22,21 @@ if(closeCart) closeCart.onclick = () => cartSidebar.classList.remove('active');
 
 function toggleMenu() {
     const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('overlay');   
-    sidebar.classList.toggle('active');   
-    overlay.style.display = sidebar.classList.contains('active') ? 'block' : 'none';
+    const principal = document.getElementById('principal');
+    const overlay = document.getElementById('overlay');
+
+    // Alterna a classe no sidebar
+    sidebar.classList.toggle('active');
+    
+    // Alterna a classe no container principal para empurrar o conteúdo
+    principal.classList.toggle('menu-aberto');
+
+    // Exibe ou esconde o overlay (sombra)
+    if (sidebar.classList.contains('active')) {
+        overlay.style.display = 'block';
+    } else {
+        overlay.style.display = 'none';
+    }
 }
 
 // --- 4. LÓGICA DO CARRINHO ---
@@ -278,3 +290,16 @@ document.addEventListener('click', (e) => {
         listaResultados.style.display = 'none';
     }
 });
+
+function atualizarContador() {
+    const contador = document.getElementById('cart-count');
+    if (contador) {
+        contador.innerText = cart.length;
+        // Mostra o contador apenas se houver itens
+        if (cart.length > 0) {
+            contador.classList.add('show');
+        } else {
+            contador.classList.remove('show');
+        }
+    }
+}
