@@ -25,10 +25,21 @@
     </span>
 
     <div class="login-container">
-        <i class='bx bx-user-circle' style="font-size: 30px;"></i>
+    <div class="login-trigger">
+        <i class='bx bx-user-circle'></i>
         <span>Entrar</span>
-        <i class='bx bx-chevron-down'></i>
+        <i class='bx bx-chevron-up arrow-icon'></i>
     </div>
+    
+    <div class="login-dropdown">
+        <div class="dropdown-arrow"></div>
+        <ul>
+            <li><a href="#" class="login-link">Login</a></li>
+            <li><a href="#" id="open-orders-dropdown">Meus Pedidos</a></li>
+            <li><a href="#">Endereços</a></li>
+        </ul>
+    </div>
+</div>
 
     <div class="cart-icon-wrapper">
         <img id="carrinho" src="imagens/carrinho-de-compras.png" alt="Carrinho">
@@ -43,13 +54,13 @@
                     <span>LOJA</span>
                     <button class="close-btn" onclick="toggleMenu()">&times;</button>
                 </div>
-                
+
                 <ul>
-                    <li><a href="#">Masculino</a></li>
-                    <li><a href="#">Feminino</a></li>
+    <li><a href="#"><i class='bx bx-home'></i> Home</a></li>
+    <li><a href="#" id="open-orders"><i class='bx bx-package'></i> Meus Pedidos</a></li> <li><a href="#">Masculino</a></li>
+    <li><a href="#">Feminino</a></li>
                     <li><a href="#">Infantil</a></li>
-                    <li><a href="#">Outros</a></li>
-                </ul>
+    </ul>
             </div>
         </aside>
 
@@ -180,6 +191,22 @@
             <button type="submit" class="btn-login-submit">Cadastrar</button>
             <p class="form-footer">Já tem conta? <a href="#" id="go-to-login">Fazer Login</a></p>
         </form>
+    </div>
+</div>
+
+<div id="orders-modal" class="modal">
+    <div class="modal-content" style="max-width: 600px;">
+        <span class="close-modal" id="close-orders">&times;</span>
+        <h2><i class='bx bx-package'></i> Histórico de Pedidos</h2>
+        
+        <div style="text-align: right; margin-bottom: 15px;">
+            <button id="clear-orders-btn" class="btn-limpar">
+                <i class='bx bx-trash'></i> Limpar Histórico
+            </button>
+        </div>
+
+        <div id="orders-list">
+            </div>
     </div>
 </div>
 

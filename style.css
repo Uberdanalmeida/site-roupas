@@ -58,11 +58,115 @@ header {
 
 /* Container do Login */
 .login-container {
+    position: relative;
+    display: inline-block;
+}
+
+/* Container Principal do Login */
+.login-container {
+    position: relative;
+    display: inline-block;
+}
+
+.login-trigger {
     display: flex;
     align-items: center;
     gap: 8px;
     cursor: pointer;
+    color: white; /* Cor dos ícones e texto no header */
     font-weight: 600;
+    padding: 10px;
+}
+
+.login-trigger i {
+    font-size: 24px;
+}
+
+/* Menu Suspenso (Dropdown) */
+/* Container do Dropdown */
+.login-dropdown {
+    display: none;
+    position: absolute;
+    top: 55px; /* Distância do topo */
+    right: 0;
+    width: 220px;
+    background-color: #fff;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    padding: 15px 0;
+    z-index: 2000;
+}
+
+/* O TRIÂNGULO (Aumentado e conectado) */
+.login-dropdown::before {
+    content: "";
+    position: absolute;
+    top: -20px;         /* Ajustado para encostar no botão acima */
+    right: 20px;
+    border-width: 15px; /* Triângulo bem maior (30px de base total) */
+    border-style: solid;
+    border-color: transparent transparent #fff transparent;
+    filter: drop-shadow(0 -2px 2px rgba(0,0,0,0.05)); /* Leve sombra para combinar */
+}
+
+/* A PONTE INVISÍVEL (Segurança extra) */
+/* Isso cria uma área retangular invisível entre o menu e o botão */
+.login-dropdown::after {
+    content: "";
+    position: absolute;
+    top: -25px; 
+    left: 0;
+    width: 100%;
+    height: 25px;
+    background: transparent;
+}
+
+/* Ativação no Hover */
+.login-container:hover .login-dropdown {
+    display: block;
+}
+
+/* Mostrar ao passar o mouse */
+.login-container:hover .login-dropdown {
+    display: block;
+}
+
+/* A "Setinha" (Triângulo) */
+.dropdown-arrow {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid white;
+}
+
+/* Estilo da lista do menu */
+.login-dropdown ul {
+    list-style: none;
+    padding: 10px 0;
+}
+
+.login-dropdown ul li a {
+    padding: 12px 20px;
+    text-decoration: none;
+    display: block;
+    color: #333;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+.login-dropdown ul li a:hover {
+    background-color: #f5f5f5;
+}
+
+/* Cor roxa para o link 'Login' como na imagem */
+.login-link {
+    color: #8a2be2 !important;
+    font-weight: bold;
 }
 
 /* Wrapper para o ícone e a bolinha do contador */
@@ -477,6 +581,68 @@ footer {
     position: relative;
     box-shadow: 0 10px 25px rgba(0,0,0,0.2);
     animation: slideDown 0.3s ease-out;
+}
+
+.order-card {
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    background: #fdfdfd;
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    font-size: 13px;
+    color: #666;
+}
+
+.order-item-mini {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.order-item-mini img {
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.order-total-info {
+    text-align: right;
+    font-weight: bold;
+    color: #2d005d;
+    margin-top: 10px;
+}
+
+.btn-limpar {
+    background: none;
+    border: 1px solid #cc0000;
+    color: #cc0000;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.btn-limpar:hover {
+    background-color: #cc0000;
+    color: white;
+}
+
+.btn-limpar i {
+    vertical-align: middle;
+    margin-right: 5px;
 }
 
 @keyframes slideDown {

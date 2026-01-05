@@ -397,3 +397,124 @@ document.getElementById('login-form').onsubmit = (e) => {
         alert("E-mail ou senha incorretos!");
     }
 };
+
+// --- ELEMENTOS ---
+const ordersModal = document.getElementById('orders-modal');
+const openOrdersBtn = document.getElementById('open-orders');
+const closeOrdersBtn = document.getElementById('close-orders');
+const ordersListContainer = document.getElementById('orders-list');
+
+// --- FUNÇÃO PARA SALVAR O PEDIDO (Chame isso dentro da sua função enviarWhatsApp) ---
+function registrarPedido() {
+    if (cart.length === 0) return;
+
+    const listaPedidos = JSON.parse(localStorage.getItem('meusPedidos')) || [];
+    
+    const novoPedido = {
+        id: Math.floor(Math.random() * 10000),
+        data: new Date().toLocaleDateString('pt-BR'),
+        itens: [...cart], // Copia os itens atuais do carrinho
+        total: cart.reduce((acc, item) => acc + item.price, 0) + valorFrete
+    };
+
+    listaPedidos.unshift(novoPedido); // Adiciona no topo da lista
+    localStorage.setItem('meusPedidos', JSON.stringify(listaPedidos));
+}
+
+// Atualize sua função enviarWhatsApp para incluir o registro:
+const originalEnviarWhatsApp = enviarWhatsApp;
+enviarWhatsApp = function() {
+    registrarPedido(); // Salva localmente
+    originalEnviarWhatsApp(); // Abre o WhatsApp
+}
+
+// --- FUNÇÃO PARA RENDERIZAR PEDIDOS ---
+function renderizarPedidos() {
+    const pedidos = JSON.parse(localStorage.getItem('meusPedidos')) || [];
+    
+    if (pedidos.length === 0) {
+        ordersListContainer.innerHTML = "<p style='text-align:center;'>Você ainda não realizou pedidos.</p>";
+        return;
+    }
+
+    ordersListContainer.innerHTML = pedidos.map(pedido => `
+        <div class="order-card">
+            <div class="order-header">
+                <span>Pedido #${pedido.id}</span>
+                <span>Data: ${pedido.data}</span>
+            </div>
+            <div class="order-body">
+                ${pedido.itens.map(item => `
+                    <div class="order-item-mini">
+                        <img src="${item.img}" alt="">
+                        <span>${item.title}</span>
+                    </div>
+                `).join('')}
+            </div>
+            <div class="order-total-info">
+                Total: R$ ${pedido.total.toFixed(2)}
+            </div>
+        </div>
+    `).join('');
+}
+
+// --- EVENTOS DO MODAL ---
+openOrdersBtn.onclick = (e) => {
+    e.preventDefault();
+    toggleMenu(); // Fecha o sidebar
+    renderizarPedidos();
+    ordersModal.style.display = 'flex';
+};
+
+closeOrdersBtn.onclick = () => ordersModal.style.display = 'none';
+
+// --- LÓGICA PARA LIMPAR PEDIDOS ---
+const clearOrdersBtn = document.getElementById('clear-orders-btn');
+
+if (clearOrdersBtn) {
+    clearOrdersBtn.onclick = () => {
+        // Pede confirmação para o utilizador não apagar sem querer
+        if (confirm("Tem certeza que deseja apagar todo o seu histórico de pedidos?")) {
+            localStorage.removeItem('meusPedidos'); // Remove apenas os pedidos
+            renderizarPedidos(); // Atualiza a lista para mostrar que está vazia
+        }
+    };
+}
+
+// Pequena melhoria na função renderizarPedidos para esconder o botão se não houver pedidos
+function renderizarPedidos() {
+    const pedidos = JSON.parse(localStorage.getItem('meusPedidos')) || [];
+    const clearBtn = document.getElementById('clear-orders-btn');
+    
+    if (pedidos.length === 0) {
+        ordersListContainer.innerHTML = `
+            <div style="text-align:center; padding: 40px; color: #888;">
+                <i class='bx bx-info-circle' style="font-size: 40px;"></i>
+                <p>Ainda não realizou nenhum pedido.</p>
+            </div>`;
+        if (clearBtn) clearBtn.style.display = 'none'; // Esconde o botão limpar
+        return;
+    }
+
+    if (clearBtn) clearBtn.style.display = 'inline-block'; // Mostra o botão se houver pedidos
+
+    ordersListContainer.innerHTML = pedidos.map(pedido => `
+        <div class="order-card">
+            <div class="order-header">
+                <span>ID: #${pedido.id}</span>
+                <span>Data: ${pedido.data}</span>
+            </div>
+            <div class="order-body">
+                ${pedido.itens.map(item => `
+                    <div class="order-item-mini">
+                        <img src="${item.img}" alt="">
+                        <span>${item.title}</span>
+                    </div>
+                `).join('')}
+            </div>
+            <div class="order-total-info">
+                Total: R$ ${pedido.total.toFixed(2)}
+            </div>
+        </div>
+    `).join('');
+}
