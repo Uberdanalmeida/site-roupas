@@ -505,36 +505,37 @@ main {
 /* Container dos resultados */
 .search-results {
     position: absolute;
+    top: 60px; /* Ajuste conforme a altura do seu header */
     background: white;
     width: 250px;
     max-height: 300px;
     overflow-y: auto;
     border: 1px solid #ddd;
-    border-top: none;
-    z-index: 1000;
-    display: none; /* Escondido por padrão */
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    z-index: 2500; /* Acima de quase tudo */
+    display: none;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    border-radius: 8px;
 }
-/* Item individual da lista */
+
 .search-item {
     padding: 10px;
-    cursor: pointer;
     display: flex;
     align-items: center;
-    border-bottom: 1px solid #eee;
+    gap: 10px;
+    cursor: pointer;
     color: #333;
-    font-size: 14px;
+    border-bottom: 1px solid #eee;
 }
 
 .search-item:hover {
-    background-color: #f0f0f0;
+    background-color: #f8f8f8;
 }
 
 .search-item img {
-    width: 30px;
-    height: 30px;
-    margin-right: 10px;
+    width: 35px;
+    height: 35px;
     object-fit: cover;
+    border-radius: 4px;
 }
 
 footer {

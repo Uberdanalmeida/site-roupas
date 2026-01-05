@@ -135,3 +135,62 @@ document.getElementById('clear-orders-btn').onclick = () => {
         renderizarHistorico();
     }
 };
+
+// --- 6. SISTEMA DE BUSCA ---
+
+// Primeiro, definimos os dados dos produtos para a busca
+const produtosBusca = [
+    { title: "Camiseta", price: 40.00, img: "./imagens/camiseta.jpg" },
+    { title: "Sapato", price: 79.90, img: "./imagens/sapato.jpg" },
+    { title: "Camiseta Estampada", price: 39.90, img: "./imagens/camiseta.jpg" },
+    { title: "Tênis", price: 150.00, img: "./imagens/sapato.jpg" },
+    { title: "Chinelo", price: 50.00, img: "./imagens/camiseta.jpg" },
+    { title: "Bicicleta", price: 1550.00, img: "./imagens/sapato.jpg" },
+    { title: "Calça", price: 59.90, img: "./imagens/camiseta.jpg" },
+    { title: "Blusa", price: 80.00, img: "./imagens/sapato.jpg" }
+];
+
+const inputPesquisa = document.getElementById('carrinho-pesquisa');
+const resultadosContainer = document.getElementById('search-results');
+
+inputPesquisa.addEventListener('input', (e) => {
+    const termo = e.target.value.toLowerCase();
+    
+    if (termo.length < 1) {
+        resultadosContainer.style.display = 'none';
+        return;
+    }
+
+    const filtrados = produtosBusca.filter(p => 
+        p.title.toLowerCase().includes(termo)
+    );
+
+    if (filtrados.length > 0) {
+        resultadosContainer.style.display = 'block';
+        resultadosContainer.innerHTML = filtrados.map(p => `
+            <div class="search-item" onclick="selecionarProdutoBusca('${p.title}', ${p.price}, '${p.img}')">
+                <img src="${p.img}" alt="${p.title}">
+                <div>
+                    <div>${p.title}</div>
+                    <small>R$ ${p.price.toFixed(2)}</small>
+                </div>
+            </div>
+        `).join('');
+    } else {
+        resultadosContainer.innerHTML = '<div class="search-item">Nenhum produto encontrado</div>';
+    }
+});
+
+// Função para quando clicar no item da busca
+function selecionarProdutoBusca(title, price, img) {
+    addToCart(title, price, img); // Adiciona direto ao carrinho
+    inputPesquisa.value = ''; // Limpa a busca
+    resultadosContainer.style.display = 'none'; // Esconde os resultados
+}
+
+// Fecha os resultados se clicar fora
+document.addEventListener('click', (e) => {
+    if (!inputPesquisa.contains(e.target) && !resultadosContainer.contains(e.target)) {
+        resultadosContainer.style.display = 'none';
+    }
+});
