@@ -194,3 +194,41 @@ document.addEventListener('click', (e) => {
         resultadosContainer.style.display = 'none';
     }
 });
+
+// --- 7. MODAL DE DETALHES DO PRODUTO ---
+
+const productModal = document.getElementById('product-modal');
+const modalImg = document.getElementById('modal-img');
+const modalTitle = document.getElementById('modal-title');
+const modalPrice = document.getElementById('modal-price');
+const modalAddBtn = document.getElementById('modal-add-cart');
+
+// Função para abrir o modal com os dados do produto clicado
+function openProductModal(title, price, img) {
+    modalImg.src = img;
+    modalTitle.innerText = title;
+    modalPrice.innerText = `R$ ${parseFloat(price).toFixed(2).replace('.', ',')}`;
+    
+    // Configura o botão "COMPRAR" de dentro do modal
+    modalAddBtn.onclick = () => {
+        addToCart(title, price, img);
+        closeProductModal();
+    };
+
+    productModal.style.display = 'flex';
+}
+
+function closeProductModal() {
+    productModal.style.display = 'none';
+}
+
+// Fechar o modal no botão X
+document.getElementById('close-product').onclick = closeProductModal;
+
+// Fechar se clicar fora do conteúdo branco
+window.onclick = (event) => {
+    if (event.target == productModal) closeProductModal();
+    if (event.target == document.getElementById('orders-modal')) {
+        document.getElementById('orders-modal').style.display = 'none';
+    }
+};
