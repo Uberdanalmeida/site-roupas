@@ -559,15 +559,14 @@ footer {
 
 /* Estilo do Modal */
 .modal {
-    display: none; /* Escondido por padrão */
+    display: none; 
     position: fixed;
-    z-index: 2000; /* Acima de tudo */
+    z-index: 3000; /* Aumente o z-index para garantir que fique sobre o carrinho */
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(5px);
     align-items: center;
     justify-content: center;
 }

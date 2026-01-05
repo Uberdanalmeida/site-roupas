@@ -58,3 +58,80 @@ function toggleMenu() {
     document.getElementById('overlay').style.display = 
         document.getElementById('sidebar').classList.contains('active') ? 'block' : 'none';
 }
+
+// Função para finalizar a compra
+document.getElementById('checkout-btn').onclick = function() {
+    if (cart.length === 0) {
+        alert("Seu carrinho está vazio!");
+        return;
+    }
+
+    // Criar o objeto do pedido
+    const novoPedido = {
+        id: Math.floor(Math.random() * 10000),
+        data: new Date().toLocaleDateString('pt-BR'),
+        itens: [...cart],
+        total: cart.reduce((acc, item) => acc + item.price, 0)
+    };
+
+    // Salvar no localStorage para não perder ao atualizar a página
+    let historico = JSON.parse(localStorage.getItem('meuHistorico')) || [];
+    historico.push(novoPedido);
+    localStorage.setItem('meuHistorico', JSON.stringify(historico));
+
+    // Limpar carrinho e avisar o usuário
+    cart = [];
+    renderCart();
+    cartSidebar.classList.remove('active');
+    alert("Pedido realizado com sucesso!");
+    
+    renderizarHistorico();
+};
+
+// Função para mostrar os pedidos no modal
+function renderizarHistorico() {
+    const ordersList = document.getElementById('orders-list');
+    const historico = JSON.parse(localStorage.getItem('meuHistorico')) || [];
+
+    if (historico.length === 0) {
+        ordersList.innerHTML = '<p style="text-align:center;">Nenhum pedido realizado.</p>';
+        return;
+    }
+
+    ordersList.innerHTML = historico.map(pedido => `
+        <div class="order-card" style="border:1px solid #ddd; padding:10px; margin-bottom:10px; border-radius:8px;">
+            <div class="order-header">
+                <span><strong>Pedido:</strong> #${pedido.id}</span>
+                <span><strong>Data:</strong> ${pedido.data}</span>
+            </div>
+            <div class="order-items">
+                ${pedido.itens.map(item => `
+                    <div style="font-size:12px;">• ${item.title} - R$ ${item.price.toFixed(2)}</div>
+                `).join('')}
+            </div>
+            <div class="order-total-info">
+                <strong>Total: R$ ${pedido.total.toFixed(2).replace('.', ',')}</strong>
+            </div>
+        </div>
+    `).reverse().join(''); // Mostra o mais recente primeiro
+}
+
+// Abrir e fechar modal de pedidos
+const ordersModal = document.getElementById('orders-modal');
+document.getElementById('open-orders').onclick = () => {
+    ordersModal.style.display = 'flex';
+    renderizarHistorico();
+};
+document.getElementById('open-orders-dropdown').onclick = () => {
+    ordersModal.style.display = 'flex';
+    renderizarHistorico();
+};
+document.getElementById('close-orders').onclick = () => ordersModal.style.display = 'none';
+
+// Limpar Histórico
+document.getElementById('clear-orders-btn').onclick = () => {
+    if(confirm("Deseja limpar todo o histórico?")) {
+        localStorage.removeItem('meuHistorico');
+        renderizarHistorico();
+    }
+};
