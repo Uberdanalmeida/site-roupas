@@ -56,11 +56,12 @@
                 </div>
 
                 <ul>
-    <li><a href="#"><i class='bx bx-home'></i> Home</a></li>
-    <li><a href="#" id="open-orders"><i class='bx bx-package'></i> Meus Pedidos</a></li> <li><a href="#">Masculino</a></li>
-    <li><a href="#">Feminino</a></li>
+                    <li><a href="#"><i class='bx bx-home'></i>Home</a></li>
+                    <li><a href="#" id="open-orders"><i class='bx bx-package'></i>Meus Pedidos</a></li> 
+                    <li><a href="#">Masculino</a></li>
+                    <li><a href="#">Feminino</a></li>
                     <li><a href="#">Infantil</a></li>
-    </ul>
+                </ul>
             </div>
         </aside>
 
@@ -207,6 +208,57 @@
 
         <div id="orders-list">
             </div>
+    </div>
+</div>
+
+<div id="product-modal" class="modal">
+    <div class="modal-content product-view-container">
+        <span class="close-modal" id="close-product">&times;</span>
+        
+        <div class="product-grid">
+            <div class="product-img-side">
+                <img src="" id="modal-img" alt="Produto">
+                <div class="discount-badge">-19% OFF</div>
+            </div>
+
+            <div class="product-info-side">
+                <p class="breadcrumb">Gola: Careca | Material: Poliamida</p>
+                <h1 id="modal-title">Nome do Produto</h1>
+                <p class="category">Indicado para: Musculação</p>
+
+                <div class="color-selection">
+                    <span>Cor: <strong>Preto</strong></span>
+                    <div class="color-options">
+                        <div class="color-box active" style="background: black;"></div>
+                        <div class="color-box" style="background: #ddd;"></div>
+                        <div class="color-box" style="background: #4b5320;"></div>
+                    </div>
+                </div>
+
+                <div class="size-selection">
+                    <span>Tamanho:</span>
+                    <div class="size-options">
+                        <button>P</button>
+                        <button class="active">M</button>
+                        <button>G</button>
+                        <button>GG</button>
+                    </div>
+                </div>
+
+                <div class="price-container">
+                    <p class="price-from">A partir de</p>
+                    <h2 id="modal-price">R$ 99,99</h2>
+                    <p class="payment-method">no Pix</p>
+                </div>
+
+                <div class="shipping-info">
+                    <span class="free-shipping">Frete grátis</span>
+                    <p>Chega dia 7 de janeiro</p>
+                </div>
+
+                <button id="modal-add-cart" class="btn-buy">COMPRAR</button>
+            </div>
+        </div>
     </div>
 </div>
 

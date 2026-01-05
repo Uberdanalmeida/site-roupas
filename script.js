@@ -518,3 +518,47 @@ function renderizarPedidos() {
         </div>
     `).join('');
 }
+
+// Abrir detalhes do produto
+function openProductDetails(title, price, img) {
+    const modal = document.getElementById('product-modal');
+    document.getElementById('modal-title').innerText = title;
+    document.getElementById('modal-price').innerText = `R$ ${price.toFixed(2)}`;
+    document.getElementById('modal-img').src = img;
+    
+    modal.style.display = 'flex';
+
+    // Configura o botão de comprar do modal
+    document.getElementById('modal-add-cart').onclick = () => {
+        addToCart(title, price, img);
+        modal.style.display = 'none';
+    };
+}
+
+// Fechar modal
+document.getElementById('close-product').onclick = () => {
+    document.getElementById('product-modal').style.display = 'none';
+};
+
+// Víncular clique na imagem do produto (Atualize sua função vincularEventosCarrinho)
+function vincularEventosProdutos() {
+    document.querySelectorAll('.product-box').forEach(box => {
+        const img = box.querySelector('.product-img');
+        const titleElement = box.querySelector('.product-title');
+        
+        const title = titleElement.innerText;
+        const price = parseFloat(box.querySelector('.price').innerText.replace('$', '').replace('R$', ''));
+        const imgSrc = img.src;
+
+        // Ao clicar na imagem ou no título, abre o detalhe
+        [img, titleElement].forEach(el => {
+            el.style.cursor = 'pointer';
+            el.onclick = () => openProductDetails(title, price, imgSrc);
+        });
+    });
+}
+
+// Chame essa função no DOMContentLoaded
+document.addEventListener('DOMContentLoaded', () => {
+    vincularEventosProdutos();
+});
