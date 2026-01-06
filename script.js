@@ -11,10 +11,46 @@ document.getElementById('carrinho').onclick = () => cartSidebar.classList.add('a
 document.getElementById('close-cart').onclick = () => cartSidebar.classList.remove('active');
 
 // Função para adicionar ao carrinho
+// 1. Alterar a função de Adicionar
 function addToCart(title, price, img) {
-    cart.push({ title, price: parseFloat(price), img });
+    // Verifica se o item já está no carrinho
+    const itemIndex = cart.findIndex(item => item.title === title);
+
+    if (itemIndex > -1) {
+        cart[itemIndex].qty += 1; // Se existe, só aumenta a quantidade
+    } else {
+        cart.push({ title, price: parseFloat(price), img, qty: 1 }); // Se não, adiciona com qty: 1
+    }
+    
     renderCart();
-    cartSidebar.classList.add('active'); // Abre o carrinho ao adicionar
+    cartSidebar.classList.add('active');
+}
+
+// 2. Nova função para mudar quantidade via botões
+function changeQty(index, delta) {
+    if (cart[index].qty + delta > 0) {
+        cart[index].qty += delta;
+    } else {
+        removeFromCart(index); // Se chegar a zero, remove
+    }
+    renderCart();
+}
+
+// 3. Atualizar cálculo do Total no renderCart
+function renderCart() {
+    // ... (parte do innerHTML acima)
+    
+    const total = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
+    const economia = total * 0.45; // Simulação de 45% de desconto como no print
+
+    document.getElementById('subtotal-val').innerText = `R$ ${total.toFixed(2).replace('.', ',')}`;
+    document.getElementById('cart-total').innerText = `R$ ${total.toFixed(2).replace('.', ',')}`;
+    document.getElementById('savings-val').innerText = `R$ ${economia.toFixed(2).replace('.', ',')}`;
+    
+    // Atualiza contador da bolinha (soma de todas as quantidades)
+    const totalItens = cart.reduce((acc, item) => acc + item.qty, 0);
+    cartCount.innerText = totalItens;
+    cartCount.style.display = totalItens > 0 ? 'flex' : 'none';
 }
 
 // Função para remover
@@ -36,23 +72,34 @@ function renderCart() {
 
     document.querySelector('.cart-summary').style.display = 'block';
 
-    cartItemsContainer.innerHTML = cart.map((item, index) => `
-        <div class="cart-item">
-            <img src="${item.img}" alt="${item.title}">
-            <div class="item-info">
-                <h4>${item.title}</h4>
-                <div class="item-details">
-                    <p>Vendido e entregue por <strong>Sua Loja</strong></p>
-                    <p>Tamanho: M | Cor: Padrão</p>
-                </div>
+
+    // Dentro da função renderCart(), no mapeamento dos itens:
+cartItemsContainer.innerHTML = cart.map((item, index) => `
+    <div class="cart-item">
+        <img src="${item.img}" alt="${item.title}">
+        
+        <div class="item-info">
+            <h4>${item.title}</h4>
+            <div class="item-details">
+                <p>Ref: #2FU-8279-120</p>
+                <p>Vendido e entregue por <strong>E-Commerce</strong></p>
+                <p>Tamanho: 39 | Cor: Padrão</p>
             </div>
-            <div class="item-price-area">
-                <i class='bx bx-trash' onclick="removeFromCart(${index})" style="cursor:pointer; color:#999; margin-bottom:auto; text-align:right"></i>
-                <span class="old-price">R$ ${(item.price * 1.4).toFixed(2)}</span>
-                <span class="current-price">R$ ${item.price.toFixed(2)}</span>
+            
+            <div class="quantity-selector">
+                <button onclick="changeQty(${index}, -1)">-</button>
+                <input type="text" value="${item.qty}" readonly>
+                <button onclick="changeQty(${index}, 1)">+</button>
             </div>
         </div>
-    `).join('');
+
+        <div class="item-price-area">
+            <i class='bx bx-trash' onclick="removeFromCart(${index})" style="cursor:pointer; color:#999; margin-bottom:auto; text-align:right"></i>
+            <span class="old-price">R$ ${(item.price * 1.4 * item.qty).toFixed(2)}</span>
+            <span class="current-price">R$ ${(item.price * item.qty).toFixed(2)}</span>
+        </div>
+    </div>
+`).join('');
 
     const total = cart.reduce((acc, item) => acc + item.price, 0);
     const economia = total * 0.4; // Exemplo de cálculo
