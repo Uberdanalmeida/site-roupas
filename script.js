@@ -25,31 +25,41 @@ function removeFromCart(index) {
 
 // Atualizar a visualização
 function renderCart() {
-    // Atualiza a bolinha vermelha
     cartCount.innerText = cart.length;
-    cartCount.style.display = cart.length > 0 ? 'flex' : 'none';
+    cartCount.classList.toggle('show', cart.length > 0);
 
     if (cart.length === 0) {
-        cartItemsContainer.innerHTML = '<p style="text-align:center; padding:20px;">Carrinho vazio</p>';
-        cartTotalElement.innerText = "R$ 0,00";
+        cartItemsContainer.innerHTML = '<div style="grid-column: 1/-1; text-align:center; padding:50px;"><h2>Seu carrinho está vazio</h2></div>';
+        document.querySelector('.cart-summary').style.display = 'none';
         return;
     }
 
-    // Gera a lista de itens
+    document.querySelector('.cart-summary').style.display = 'block';
+
     cartItemsContainer.innerHTML = cart.map((item, index) => `
-        <div class="cart-item" style="display:flex; align-items:center; gap:10px; margin-bottom:10px; background:#fff; padding:10px;">
-            <img src="${item.img}" style="width:50px; height:60px; object-fit:cover;">
-            <div style="flex:1">
-                <h4 style="font-size:14px;">${item.title}</h4>
-                <p>R$ ${item.price.toFixed(2)}</p>
+        <div class="cart-item">
+            <img src="${item.img}" alt="${item.title}">
+            <div class="item-info">
+                <h4>${item.title}</h4>
+                <div class="item-details">
+                    <p>Vendido e entregue por <strong>Sua Loja</strong></p>
+                    <p>Tamanho: M | Cor: Padrão</p>
+                </div>
             </div>
-            <i class='bx bx-trash' onclick="removeFromCart(${index})" style="cursor:pointer; color:red;"></i>
+            <div class="item-price-area">
+                <i class='bx bx-trash' onclick="removeFromCart(${index})" style="cursor:pointer; color:#999; margin-bottom:auto; text-align:right"></i>
+                <span class="old-price">R$ ${(item.price * 1.4).toFixed(2)}</span>
+                <span class="current-price">R$ ${item.price.toFixed(2)}</span>
+            </div>
         </div>
     `).join('');
 
-    // Calcula o total
     const total = cart.reduce((acc, item) => acc + item.price, 0);
-    cartTotalElement.innerText = `R$ ${total.toFixed(2).replace('.', ',')}`;
+    const economia = total * 0.4; // Exemplo de cálculo
+
+    document.getElementById('subtotal-val').innerText = `R$ ${total.toFixed(2)}`;
+    document.getElementById('cart-total').innerText = `R$ ${total.toFixed(2)}`;
+    document.getElementById('savings-val').innerText = `R$ ${economia.toFixed(2)}`;
 }
 
 // Função do Menu Lateral

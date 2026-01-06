@@ -126,7 +126,7 @@
             <span class="price">$80</span>
             <i class='bx bx-shopping-bag add-cart' onclick="addToCart('Blusa', 80.00, './imagens/sapato.jpg')"></i>
         </div>
-        </div>
+    </div>
 
     <div class="pagination">
         <a href="#" class="btn-nav disabled">Anterior</a>
@@ -139,18 +139,56 @@
     </div>
     </main>
 
-        <div id="cart-sidebar" class="cart-sidebar">
-        <div class="cart-header">
-            <h2>Meu Carrinho</h2>
-            <span id="close-cart" style="cursor:pointer">&times; Fechar</span>
-        </div>
+    <div id="cart-sidebar" class="cart-sidebar">
+    <div class="cart-header">
+        <h2>Meu carrinho</h2>
+        <span id="close-cart" style="cursor:pointer">&times;</span>
+    </div>
+
+    <div class="cart-container">
         <div id="cart-items">
+            </div>
+
+        <div class="cart-summary">
+            <h3>Resumo da compra</h3>
+            
+            <div class="summary-row">
+                <span>Subtotal (item)</span>
+                <span id="subtotal-val">R$ 0,00</span>
+            </div>
+
+            <div class="shipping-section">
+                <div class="summary-row">
+                    <span>Frete</span>
+                    <span class="free-text">Grátis</span>
+                </div>
+                <p class="shipping-estimate">Chega até dia 14 de Janeiro</p>
+                <a href="#" class="link-action">Explorar opções de entrega</a>
+            </div>
+
+            <div class="coupon-section">
+                <a href="#" class="link-action">Cupom de desconto <span>Adicionar</span></a>
+            </div>
+
+            <div class="total-row">
+                <div class="summary-row">
+                    <span>Valor total</span>
+                    <span id="cart-total">R$ 0,00</span>
+                </div>
+                <p class="installments">Em até 6x de R$ 70,00 sem juros</p>
+            </div>
+
+            <div class="savings-tag">
+                Você está economizando <span id="savings-val">R$ 0,00</span>
+            </div>
+
+            <button id="checkout-btn">Finalizar</button>
+            <button id="continue-shopping" onclick="document.getElementById('cart-sidebar').classList.remove('active')">
+                Escolher mais produtos
+            </button>
         </div>
-        <div class="cart-footer">
-            <p>Total: <span id="cart-total">$0.00</span></p>
-            <button id="checkout-btn">Finalizar Compra</button>
-        </div>
-        </div>
+    </div>
+</div>
 
         <div id="login-modal" class="modal">
     <div class="modal-content">

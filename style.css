@@ -357,33 +357,52 @@ main {
 
 .cart-container {
     display: grid;
-    grid-template-columns: 1fr 350px;
-    gap: 20px;
+    grid-template-columns: 1fr 380px; /* Esquerda larga, direita fixa */
+    gap: 30px;
     padding: 20px;
+    background-color: #f8f8f8;
+    height: calc(100% - 70px);
     overflow-y: auto;
 }
 
+/* Item do Carrinho Estilo Card */
 .cart-item {
     background: white;
-    padding: 15px;
-    display: flex;
-    align-items: center;
-    gap: 15px;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 100px 1fr auto;
+    gap: 20px;
     border-radius: 4px;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+    position: relative;
+    border: 1px solid #eee;
 }
 
-.cart-item img { 
-    width: 70px; 
-    height: 90px; 
-    object-fit: cover; 
+.cart-item img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
 }
-/* 6. RESUMO E FRETE */
+
+.item-info h4 { font-size: 16px; margin-bottom: 5px; }
+.item-details { color: #666; font-size: 13px; line-height: 1.6; }
+
+.item-price-area {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.old-price { text-decoration: line-through; color: #999; font-size: 12px; }
+.current-price { font-weight: bold; font-size: 18px; color: #000; }
+
 .cart-summary {
     background: white;
-    padding: 20px;
+    padding: 25px;
     border-radius: 4px;
     height: fit-content;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
 
 .shipping-box {
@@ -418,27 +437,125 @@ main {
 .summary-row {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 12px;
-    font-size: 14px;
+    margin-bottom: 15px;
+    font-size: 15px;
 }
 
-.total-row {
-    border-top: 1px solid #eee;
-    padding-top: 15px;
+.free-text { background: #d8ff5d; padding: 2px 5px; font-weight: bold; font-size: 12px; }
+.link-action { color: #502181; text-decoration: underline; font-size: 13px; display: block; margin: 10px 0; }
+
+.total-row { border-top: 1px solid #eee; pt: 15px; margin-top: 15px; }
+.total-row .current-price { font-size: 22px; }
+
+#checkout-btn {
+    width: 100%;
+    background: #2d005d;
+    color: white;
+    padding: 18px;
+    border: none;
+    border-radius: 5px;
     font-weight: bold;
-    font-size: 18px;
-    color: #000;
+    font-size: 16px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+/* Layout do Carrinho em Duas Colunas */
+.cart-container {
+    display: grid;
+    grid-template-columns: 1fr 380px; /* Esquerda larga, direita fixa */
+    gap: 30px;
+    padding: 20px;
+    background-color: #f8f8f8;
+    height: calc(100% - 70px);
+    overflow-y: auto;
+}
+
+/* Item do Carrinho Estilo Card */
+.cart-item {
+    background: white;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 100px 1fr auto;
+    gap: 20px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    position: relative;
+    border: 1px solid #eee;
+}
+
+.cart-item img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+}
+
+.item-info h4 { font-size: 16px; margin-bottom: 5px; }
+.item-details { color: #666; font-size: 13px; line-height: 1.6; }
+
+.item-price-area {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.old-price { text-decoration: line-through; color: #999; font-size: 12px; }
+.current-price { font-weight: bold; font-size: 18px; color: #000; }
+
+/* Coluna de Resumo (Direita) */
+.cart-summary {
+    background: white;
+    padding: 25px;
+    border-radius: 4px;
+    height: fit-content;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    font-size: 15px;
+}
+
+.free-text { background: #d8ff5d; padding: 2px 5px; font-weight: bold; font-size: 12px; }
+.link-action { color: #502181; text-decoration: underline; font-size: 13px; display: block; margin: 10px 0; }
+
+.total-row { border-top: 1px solid #eee; pt: 15px; margin-top: 15px; }
+.total-row .current-price { font-size: 22px; }
+
+.savings-tag {
+    background-color: #e8ff9a;
+    padding: 12px;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 14px;
+    margin: 20px 0;
 }
 
 #checkout-btn {
     width: 100%;
-    background-color: #2d005d;
+    background: #2d005d;
     color: white;
-    padding: 15px;
+    padding: 18px;
     border: none;
+    border-radius: 5px;
     font-weight: bold;
+    font-size: 16px;
     cursor: pointer;
-    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+#continue-shopping {
+    width: 100%;
+    background: none;
+    border: 1px solid #2d005d;
+    color: #2d005d;
+    padding: 12px;
+    cursor: pointer;
+    font-weight: bold;
 }
 
 #checkout-btn:hover {
@@ -451,12 +568,13 @@ main {
 }
 
 .savings-tag {
-    background-color: #d8ff5d;
-    padding: 8px;
+    background-color: #e8ff9a;
+    padding: 12px;
+    border-radius: 5px;
     text-align: center;
-    font-size: 12px;
     font-weight: bold;
-    margin: 15px 0;
+    font-size: 14px;
+    margin: 20px 0;
 }
 /* 7. PAGINAÇÃO E FOOTER */
 .pagination { 
