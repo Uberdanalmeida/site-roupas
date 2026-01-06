@@ -203,20 +203,34 @@ const modalTitle = document.getElementById('modal-title');
 const modalPrice = document.getElementById('modal-price');
 const modalAddBtn = document.getElementById('modal-add-cart');
 
-// Função para abrir o modal com os dados do produto clicado
-function openProductModal(title, price, img) {
-    modalImg.src = img;
-    modalTitle.innerText = title;
-    modalPrice.innerText = `R$ ${parseFloat(price).toFixed(2).replace('.', ',')}`;
+// Lógica de Cadastro - Versão Corrigida
+document.getElementById('register-form').onsubmit = function(e) {
+    e.preventDefault();
+    const nome = document.getElementById('reg-name').value;
+    const email = document.getElementById('reg-email').value;
+    const password = document.getElementById('reg-password').value; // Certifique-se que o ID no HTML é reg-password
     
-    // Configura o botão "COMPRAR" de dentro do modal
-    modalAddBtn.onclick = () => {
-        addToCart(title, price, img);
-        closeProductModal();
-    };
+    // Pega a lista de todos os usuários já cadastrados
+    let listaUsuarios = JSON.parse(localStorage.getItem('listaUsuarios')) || [];
 
-    productModal.style.display = 'flex';
-}
+    // Verifica se o e-mail já existe na lista
+    if (listaUsuarios.some(u => u.email === email)) {
+        alert("Este e-mail já está cadastrado!");
+        return;
+    }
+
+    // Adiciona o novo usuário à lista
+    const novoUsuario = { nome, email, password };
+    listaUsuarios.push(novoUsuario);
+    
+    // Salva a lista atualizada e loga o usuário
+    localStorage.setItem('listaUsuarios', JSON.stringify(listaUsuarios));
+    localStorage.setItem('usuarioLogado', JSON.stringify(novoUsuario));
+    
+    alert("Conta criada com sucesso!");
+    efetuarLoginInterface(nome);
+    registerModal.style.display = 'none';
+};
 
 function closeProductModal() {
     productModal.style.display = 'none';
@@ -232,3 +246,117 @@ window.onclick = (event) => {
         document.getElementById('orders-modal').style.display = 'none';
     }
 };
+
+// --- 8. SISTEMA DE LOGIN E CADASTRO ---
+
+const loginModal = document.getElementById('login-modal');
+const registerModal = document.getElementById('register-modal');
+const loginTrigger = document.querySelector('.login-trigger span'); // O texto "Entrar"
+const loginIcon = document.querySelector('.login-trigger i');
+
+// Abrir Modais
+document.querySelector('.login-link').onclick = () => loginModal.style.display = 'flex';
+document.getElementById('go-to-login').onclick = (e) => {
+    e.preventDefault();
+    registerModal.style.display = 'none';
+    loginModal.style.display = 'flex';
+};
+// No modal de login, o link "Criar uma agora"
+document.querySelector('#login-form .form-footer a').onclick = (e) => {
+    e.preventDefault();
+    loginModal.style.display = 'none';
+    registerModal.style.display = 'flex';
+};
+
+// Fechar Modais
+document.getElementById('close-login').onclick = () => loginModal.style.display = 'none';
+document.getElementById('close-register').onclick = () => registerModal.style.display = 'none';
+
+// Lógica de Cadastro
+document.getElementById('register-form').onsubmit = function(e) {
+    e.preventDefault();
+    const nome = document.getElementById('reg-name').value;
+    const email = document.getElementById('reg-email').value;
+    
+    // Salva o usuário no navegador
+    const usuario = { nome, email };
+    localStorage.setItem('usuarioLogado', JSON.stringify(usuario));
+    
+    alert(`Conta criada com sucesso! Bem-vindo, ${nome}`);
+    efetuarLoginInterface(nome);
+    registerModal.style.display = 'none';
+};
+
+// Lógica de Login com Validação
+document.getElementById('login-form').onsubmit = function(e) {
+    e.preventDefault();
+    const emailDigitado = document.getElementById('email').value;
+    const senhaDigitada = document.getElementById('password').value;
+    
+    // Tenta buscar o usuário no banco de dados local (localStorage)
+    const usuariosCadastrados = JSON.parse(localStorage.getItem('listaUsuarios')) || [];
+    
+    // Procura se existe algum usuário com esse e-mail e senha
+    const usuarioEncontrado = usuariosCadastrados.find(u => 
+        u.email === emailDigitado && u.password === senhaDigitada
+    );
+
+    if (usuarioEncontrado) {
+        // Se encontrou, salva como logado e atualiza a tela
+        localStorage.setItem('usuarioLogado', JSON.stringify(usuarioEncontrado));
+        efetuarLoginInterface(usuarioEncontrado.nome);
+        loginModal.style.display = 'none';
+        alert(`Bem-vindo de volta, ${usuarioEncontrado.nome}!`);
+    } else {
+        // Se não encontrou, avisa o usuário
+        alert("Erro: E-mail ou senha incorretos. Caso não tenha conta, clique em 'Criar uma agora'.");
+    }
+};
+
+// Função para mudar o cabeçalho
+function efetuarLoginInterface(nome) {
+    document.getElementById('btn-logout').style.display = 'block';
+    loginTrigger.innerText = `Olá, ${nome.split(' ')[0]}`; // Pega só o primeiro nome
+    loginIcon.className = 'bx bxs-user-check'; // Muda o ícone para um de "verificado"
+}
+
+// Função para realizar o Logout
+function realizarLogout() {
+    if (confirm("Deseja realmente sair da sua conta?")) {
+        localStorage.removeItem('usuarioLogado');
+        alert("Você saiu da conta.");
+        location.reload(); // Recarrega para voltar o texto "Entrar"
+    }
+}
+
+// Configura o botão "Sair" do Dropdown
+const btnLogout = document.getElementById('btn-logout');
+if (btnLogout) {
+    btnLogout.onclick = (e) => {
+        e.preventDefault();
+        realizarLogout();
+    };
+}
+
+// Melhoria: Esconder o botão "Sair" se não estiver logado
+function atualizarMenuUsuario() {
+    const logado = localStorage.getItem('usuarioLogado');
+    const itemLogout = document.getElementById('btn-logout');
+    
+    if (logado) {
+        if (itemLogout) itemLogout.style.display = 'block';
+    } else {
+        if (itemLogout) itemLogout.style.display = 'none';
+    }
+}
+
+// Chame essa função dentro da sua window.addEventListener('load', ...)
+// e também dentro da função efetuarLoginInterface(nome)
+
+// Verificar se já estava logado ao abrir a página
+window.addEventListener('load', () => {
+    const logado = JSON.parse(localStorage.getItem('usuarioLogado'));
+    if (logado) {
+        efetuarLoginInterface(logado.nome);
+    }
+});

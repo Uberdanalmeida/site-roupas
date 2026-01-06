@@ -82,6 +82,10 @@ header {
     font-size: 24px;
 }
 
+.login-trigger:hover {
+    color: #ff4d4d; /* Muda para vermelho ou uma cor de destaque ao passar o mouse */
+    transition: 0.3s;
+}
 /* Menu Suspenso (Dropdown) */
 /* Container do Dropdown */
 .login-dropdown {
@@ -562,7 +566,7 @@ footer {
 .modal {
     display: none; 
     position: fixed;
-    z-index: 3000; /* Aumente o z-index para garantir que fique sobre o carrinho */
+    z-index: 4000; /* Garante que fique acima de tudo */
     left: 0;
     top: 0;
     width: 100%;
@@ -667,8 +671,8 @@ footer {
 }
 
 .product-img-side img {
-    max-width: 100%;
-    height: auto;
+    max-height: 400px; /* Evita que a imagem fique gigante no modal */
+    object-fit: contain;
 }
 
 .discount-badge {
@@ -721,6 +725,11 @@ footer {
     background: #f0f0f0;
 }
 
+.size-options button:focus, .color-box:hover {
+    border: 2px solid #2d005d;
+    outline: none;
+}
+
 .btn-buy {
     width: 100%;
     padding: 20px;
@@ -732,6 +741,8 @@ footer {
     cursor: pointer;
     margin-top: 20px;
 }
+
+#btn-logout { display: none; }
 
 .free-shipping {
     background: #d8ff5d;

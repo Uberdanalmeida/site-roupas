@@ -37,15 +37,16 @@
             <li><a href="#" class="login-link">Login</a></li>
             <li><a href="#" id="open-orders-dropdown">Meus Pedidos</a></li>
             <li><a href="#">Endereços</a></li>
+            <li><a href="#" id="btn-logout" style="color: red;"><i class='bx bx-log-out'></i>Sair</a></li>
         </ul>
     </div>
-</div>
+    </div>
 
     <div class="cart-icon-wrapper">
         <img id="carrinho" src="imagens/carrinho-de-compras.png" alt="Carrinho">
         <span id="cart-count">0</span>
     </div>
-</div>
+    </div>
         </header> 
 
         <aside id="sidebar" class="sidebar-hidden">
@@ -67,10 +68,10 @@
 
         <div id="overlay" onclick="toggleMenu()"></div>
 
-<main id="MenuMain">
-    <h2 class="section-title">Shop Products</h2>
-    <div class="shop-content">
-        <div class="product-box">
+       <main id="MenuMain">
+         <h2 class="section-title">Shop Products</h2>
+        <div class="shop-content">
+            <div class="product-box">
             <img src="./imagens/camiseta.jpg" alt="" class="product-img" onclick="openProductModal('Camiseta', 40.00, './imagens/camiseta.jpg')" style="cursor:pointer">
             <h2 class="product-title">Camiseta</h2>
             <span class="price">$40</span>
@@ -125,7 +126,7 @@
             <span class="price">$80</span>
             <i class='bx bx-shopping-bag add-cart' onclick="addToCart('Blusa', 80.00, './imagens/sapato.jpg')"></i>
         </div>
-    </div>
+        </div>
 
     <div class="pagination">
         <a href="#" class="btn-nav disabled">Anterior</a>
@@ -136,7 +137,7 @@
         <span class="page-number">5</span>
         <a href="#" class="btn-nav">Próxima</a>
     </div>
-</main>
+    </main>
 
         <div id="cart-sidebar" class="cart-sidebar">
         <div class="cart-header">
