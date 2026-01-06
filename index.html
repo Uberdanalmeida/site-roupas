@@ -157,14 +157,16 @@
                 <span id="subtotal-val">R$ 0,00</span>
             </div>
 
-            <div class="shipping-section">
-                <div class="summary-row">
-                    <span>Frete</span>
-                    <span class="free-text">Grátis</span>
-                </div>
-                <p class="shipping-estimate">Chega até dia 14 de Janeiro</p>
-                <a href="#" class="link-action">Explorar opções de entrega</a>
-            </div>
+            <div class="shipping-box">
+    <label for="cep-input">Consultar frete e prazo de entrega</label>
+    <div class="shipping-input-group">
+        <input type="text" id="cep-input" placeholder="01001-000" maxlength="9">
+        <button class="btn-consultar" onclick="consultarFrete()">Consultar</button>
+    </div>
+    <a href="https://buscacepinter.correios.com.br/" target="_blank" class="link-action">Não sei meu CEP</a>
+    
+    <div id="shipping-result" class="shipping-result-container"></div>
+</div>
 
             <div class="coupon-section">
                 <a href="#" class="link-action">Cupom de desconto <span>Adicionar</span></a>
@@ -175,7 +177,6 @@
                     <span>Valor total</span>
                     <span id="cart-total">R$ 0,00</span>
                 </div>
-                <p class="installments">Em até 6x de R$ 70,00 sem juros</p>
             </div>
 
             <div class="savings-tag">

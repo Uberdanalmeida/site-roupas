@@ -903,6 +903,44 @@ footer {
     padding: 5px;
 }
 
+.shipping-info-detail {
+    background: #f8f9fa;
+    border: 1px dashed #ccc;
+    padding: 12px;
+    border-radius: 8px;
+    margin-top: 15px;
+}
+
+.location-text {
+    font-size: 12px;
+    color: #444;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+}
+
+.location-text i {
+    color: #2d005d;
+    font-size: 16px;
+}
+
+.shipping-name {
+    display: block;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+.free-badge {
+    color: #2e7d32;
+    background: #e8f5e9;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
 @media (max-width: 768px) {
     .product-grid { grid-template-columns: 1fr; }
 }

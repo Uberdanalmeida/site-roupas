@@ -417,3 +417,64 @@ window.addEventListener('load', () => {
         efetuarLoginInterface(logado.nome);
     }
 });
+
+async function consultarFrete() {
+    const cepInput = document.getElementById('cep-input');
+    const cep = cepInput.value.replace(/\D/g, '');
+    const resultContainer = document.getElementById('shipping-result');
+    const btn = document.querySelector('.btn-consultar');
+
+    if (cep.length !== 8) {
+        alert("Por favor, digite um CEP válido.");
+        return;
+    }
+
+    btn.innerText = "Buscando...";
+    btn.disabled = true;
+
+    try {
+        const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+        const data = await response.json();
+
+        if (data.erro) {
+            alert("CEP não encontrado.");
+            resetConsulta(btn, resultContainer);
+            return;
+        }
+
+        // Simulação de delay para experiência do usuário
+        setTimeout(() => {
+            resultContainer.style.display = 'block';
+            
+            // Montando o endereço detalhado
+            // data.logradouro = Rua/Avenida | data.bairro = Bairro | data.localidade = Cidade
+            const enderecoCompleto = `${data.logradouro}, ${data.bairro} - ${data.localidade}/${data.uf}`;
+
+            resultContainer.innerHTML = `
+                <div class="shipping-info-detail">
+                    <p class="location-text"><i class='bx bx-map-pin'></i> ${enderecoCompleto}</p>
+                    <div class="shipping-option">
+                        <div>
+                            <span class="shipping-name">Entrega Padrão</span>
+                            <span class="shipping-deadline">Receba em até 4 dias úteis</span>
+                        </div>
+                        <strong class="free-badge">Grátis</strong>
+                    </div>
+                </div>
+            `;
+            
+            btn.innerText = "Consultar";
+            btn.disabled = false;
+        }, 600);
+
+    } catch (error) {
+        alert("Erro ao conectar com o serviço de frete.");
+        resetConsulta(btn, resultContainer);
+    }
+}
+
+function resetConsulta(btn, container) {
+    btn.innerText = "Consultar";
+    btn.disabled = false;
+    container.style.display = 'none';
+}
