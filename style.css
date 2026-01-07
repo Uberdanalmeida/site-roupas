@@ -24,7 +24,6 @@
 header {
     grid-area: header;
     width: 100%;
-    transition: width 0.4s ease-in-out;
     background-color: #222;
     color: white;
     height: 80px;
@@ -174,10 +173,6 @@ header {
     height: auto;
 }
 
-#cart-count.show {
-    display: flex;
-}
-
 #carrinho-pesquisa {
     padding: 10px;
     font-size: 16px;
@@ -216,8 +211,7 @@ header {
     display: flex; 
 }
 /* 3. MENU LATERAL (SIDEBAR ESQUERDA) */
-aside { 
-    grid-area: aside; 
+aside {  
     background-color: #f4f4f4; 
 }
 
@@ -663,14 +657,6 @@ footer {
     display: grid;
     grid-template-columns: 1fr 1.2fr;
     gap: 30px;
-}
-
-.product-img-side {
-    position: relative;
-    background: #f9f9f9;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .product-img-side img {
