@@ -260,6 +260,51 @@ const modalTitle = document.getElementById('modal-title');
 const modalPrice = document.getElementById('modal-price');
 const modalAddBtn = document.getElementById('modal-add-cart');
 
+// ADICIONE ESTE BLOCO ABAIXO DAS CONSTANTES DA SEÇÃO 7:
+
+function openProductModal(title, price, img) {
+    const productModal = document.getElementById('product-modal');
+    const modalImg = document.getElementById('modal-img');
+    const modalTitle = document.getElementById('modal-title');
+    const modalPrice = document.getElementById('modal-price');
+    const modalAddBtn = document.getElementById('modal-add-cart');
+    const thumbContainer = document.getElementById('modal-thumbnails');
+
+    // 1. Preenche dados básicos
+    modalImg.src = img;
+    modalTitle.innerText = title;
+    modalPrice.innerText = `R$ ${price.toFixed(2).replace('.', ',')}`;
+
+    // 2. Criar Miniaturas (Simulando 3 ângulos diferentes com a mesma imagem)
+    // Em um sistema real, você teria um array de imagens para cada produto
+    const imagensGaleria = [img, img, img]; 
+    
+    thumbContainer.innerHTML = imagensGaleria.map((src, index) => `
+        <img src="${src}" 
+             class="thumb-item ${index === 0 ? 'active' : ''}" 
+             onclick="document.getElementById('modal-img').src = '${src}'; updateThumbActive(this)">
+    `).join('');
+
+    // 3. Configura o botão comprar
+    modalAddBtn.onclick = () => {
+        addToCart(title, price, img);
+        closeProductModal();
+    };
+
+    productModal.style.display = 'flex';
+}
+
+// Função auxiliar para destacar a miniatura selecionada
+function updateThumbActive(element) {
+    document.querySelectorAll('.thumb-item').forEach(t => t.classList.remove('active'));
+    element.classList.add('active');
+}
+
+// Função para fechar o modal
+function closeProductModal() {
+    productModal.style.display = 'none';
+}
+
 // Lógica de Cadastro - Versão Corrigida
 document.getElementById('register-form').onsubmit = function(e) {
     e.preventDefault();
