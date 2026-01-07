@@ -36,77 +36,57 @@ function changeQty(index, delta) {
     renderCart();
 }
 
-// 3. Atualizar cálculo do Total no renderCart
-function renderCart() {
-    // ... (parte do innerHTML acima)
-    
-    const total = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
-    const economia = total * 0.45; // Simulação de 45% de desconto como no print
-
-    document.getElementById('subtotal-val').innerText = `R$ ${total.toFixed(2).replace('.', ',')}`;
-    document.getElementById('cart-total').innerText = `R$ ${total.toFixed(2).replace('.', ',')}`;
-    document.getElementById('savings-val').innerText = `R$ ${economia.toFixed(2).replace('.', ',')}`;
-    
-    // Atualiza contador da bolinha (soma de todas as quantidades)
-    const totalItens = cart.reduce((acc, item) => acc + item.qty, 0);
-    cartCount.innerText = totalItens;
-    cartCount.style.display = totalItens > 0 ? 'flex' : 'none';
-}
-
 // Função para remover
 function removeFromCart(index) {
     cart.splice(index, 1);
     renderCart();
 }
 
-// Atualizar a visualização
 function renderCart() {
-    cartCount.innerText = cart.length;
-    cartCount.classList.toggle('show', cart.length > 0);
+    // Atualiza o contador visual da bolinha no ícone do carrinho
+    const totalItens = cart.reduce((acc, item) => acc + item.qty, 0);
+    cartCount.innerText = totalItens;
+    cartCount.style.display = totalItens > 0 ? 'flex' : 'none';
 
     if (cart.length === 0) {
-        cartItemsContainer.innerHTML = '<div style="grid-column: 1/-1; text-align:center; padding:50px;"><h2>Seu carrinho está vazio</h2></div>';
+        cartItemsContainer.innerHTML = '<div style="text-align:center; padding:50px;"><h2>Seu carrinho está vazio</h2></div>';
         document.querySelector('.cart-summary').style.display = 'none';
         return;
     }
 
     document.querySelector('.cart-summary').style.display = 'block';
 
-
-    // Dentro da função renderCart(), no mapeamento dos itens:
-cartItemsContainer.innerHTML = cart.map((item, index) => `
-    <div class="cart-item">
-        <img src="${item.img}" alt="${item.title}">
-        
-        <div class="item-info">
-            <h4>${item.title}</h4>
-            <div class="item-details">
-                <p>Ref: #2FU-8279-120</p>
-                <p>Vendido e entregue por <strong>E-Commerce</strong></p>
-                <p>Tamanho: 39 | Cor: Padrão</p>
+    // Renderiza os itens multiplicando preço por quantidade
+    cartItemsContainer.innerHTML = cart.map((item, index) => `
+        <div class="cart-item">
+            <img src="${item.img}" alt="${item.title}">
+            <div class="item-info">
+                <h4>${item.title}</h4>
+                <div class="item-details">
+                    <p>Ref: #2FU-8279-120</p>
+                    <p>Tamanho: 39 | Cor: Padrão</p>
+                </div>
+                <div class="quantity-selector">
+                    <button onclick="changeQty(${index}, -1)">-</button>
+                    <input type="text" value="${item.qty}" readonly>
+                    <button onclick="changeQty(${index}, 1)">+</button>
+                </div>
             </div>
-            
-            <div class="quantity-selector">
-                <button onclick="changeQty(${index}, -1)">-</button>
-                <input type="text" value="${item.qty}" readonly>
-                <button onclick="changeQty(${index}, 1)">+</button>
+            <div class="item-price-area">
+                <i class='bx bx-trash' onclick="removeFromCart(${index})" style="cursor:pointer; color:#999;"></i>
+                <span class="old-price">R$ ${(item.price * 1.4 * item.qty).toFixed(2).replace('.', ',')}</span>
+                <span class="current-price">R$ ${(item.price * item.qty).toFixed(2).replace('.', ',')}</span>
             </div>
         </div>
+    `).join('');
 
-        <div class="item-price-area">
-            <i class='bx bx-trash' onclick="removeFromCart(${index})" style="cursor:pointer; color:#999; margin-bottom:auto; text-align:right"></i>
-            <span class="old-price">R$ ${(item.price * 1.4 * item.qty).toFixed(2)}</span>
-            <span class="current-price">R$ ${(item.price * item.qty).toFixed(2)}</span>
-        </div>
-    </div>
-`).join('');
+    // Cálculos dos Totais
+    const total = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
+    const economia = total * 0.40; // Exemplo de 40% de economia
 
-    const total = cart.reduce((acc, item) => acc + item.price, 0);
-    const economia = total * 0.4; // Exemplo de cálculo
-
-    document.getElementById('subtotal-val').innerText = `R$ ${total.toFixed(2)}`;
-    document.getElementById('cart-total').innerText = `R$ ${total.toFixed(2)}`;
-    document.getElementById('savings-val').innerText = `R$ ${economia.toFixed(2)}`;
+    document.getElementById('subtotal-val').innerText = `R$ ${total.toFixed(2).replace('.', ',')}`;
+    document.getElementById('cart-total').innerText = `R$ ${total.toFixed(2).replace('.', ',')}`;
+    document.getElementById('savings-val').innerText = `R$ ${economia.toFixed(2).replace('.', ',')}`;
 }
 
 // Função do Menu Lateral
