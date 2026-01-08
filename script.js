@@ -218,11 +218,10 @@ inputPesquisa.addEventListener('input', (e) => {
     }
 });
 
-// Função para quando clicar no item da busca
 function selecionarProdutoBusca(title, price, img) {
-    addToCart(title, price, img); // Adiciona direto ao carrinho
-    inputPesquisa.value = ''; // Limpa a busca
-    resultadosContainer.style.display = 'none'; // Esconde os resultados
+    openProductModal(title, price, img); 
+    inputPesquisa.value = ''; // Limpa o campo de busca
+    resultadosContainer.style.display = 'none'; // Esconde a lista de resultados
 }
 
 // Fecha os resultados se clicar fora
