@@ -96,33 +96,32 @@ function toggleMenu() {
         document.getElementById('sidebar').classList.contains('active') ? 'block' : 'none';
 }
 
-// Função para finalizar a compra
+// Alteração na função de Finalizar para levar à tela de pagamento
 document.getElementById('checkout-btn').onclick = function() {
     if (cart.length === 0) {
         alert("Seu carrinho está vazio!");
         return;
     }
 
-    // Criar o objeto do pedido
+    // 1. Salva o carrinho atual em um local temporário para a página de checkout ler
+    const totalFormatado = document.getElementById('cart-total').innerText.replace('R$ ', '');
+    localStorage.setItem('cartTemp', JSON.stringify(cart));
+    localStorage.setItem('totalTemp', totalFormatado);
+
+    // 2. Cria o registro no histórico (como você já fazia)
     const novoPedido = {
         id: Math.floor(Math.random() * 10000),
         data: new Date().toLocaleDateString('pt-BR'),
         itens: [...cart],
-        total: cart.reduce((acc, item) => acc + item.price, 0)
+        total: cart.reduce((acc, item) => acc + (item.price * item.qty), 0)
     };
 
-    // Salvar no localStorage para não perder ao atualizar a página
     let historico = JSON.parse(localStorage.getItem('meuHistorico')) || [];
     historico.push(novoPedido);
     localStorage.setItem('meuHistorico', JSON.stringify(historico));
 
-    // Limpar carrinho e avisar o usuário
-    cart = [];
-    renderCart();
-    cartSidebar.classList.remove('active');
-    alert("Pedido realizado com sucesso!");
-    
-    renderizarHistorico();
+    // 3. Redireciona para a nova página de pagamento
+    window.location.href = 'checkout.html';
 };
 
 // Função para mostrar os pedidos no modal
