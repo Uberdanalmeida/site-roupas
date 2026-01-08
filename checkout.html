@@ -101,10 +101,39 @@
     }
 
     function concluir() {
-        alert("Pagamento processado com sucesso!");
-        localStorage.removeItem('cartTemp'); // Limpa temporário
-        window.location.href = 'index.html'; // Volta para a loja
-    }
+    const seuNumero = "5511999999999"; // Seu número
+    const metodoAtivo = document.querySelector('.method-card.active').innerText.trim();
+    
+    // Recupera o endereço salvo
+    const endereco = localStorage.getItem('enderecoTemp') || "Retirada na loja / Não informado";
+    const usuario = JSON.parse(localStorage.getItem('usuarioLogado'));
+    const nomeCliente = usuario ? usuario.nome : "Cliente";
+
+    // 1. Monta o cabeçalho
+    let mensagem = `*📦 NOVO PEDIDO - ${nomeCliente.toUpperCase()}*%0A`;
+    mensagem += `----------------------------%0A`;
+    mensagem += `*📍 Endereço:* ${endereco}%0A`;
+    mensagem += `*💳 Pagamento:* ${metodoAtivo}%0A`;
+    mensagem += `*💰 Total:* R$ ${total}%0A%0A`;
+
+    // 2. Lista os itens
+    mensagem += `*Produtos:*%0A`;
+    cart.forEach(item => {
+        mensagem += `- ${item.qty}x ${item.title}%0A`;
+    });
+
+    mensagem += `%0A----------------------------%0A`;
+    mensagem += `*Link para o comprovante:* (Anexe abaixo)`;
+
+    const urlWhatsApp = `https://wa.me/${seuNumero}?text=${mensagem}`;
+
+    // Limpeza e Redirecionamento
+    localStorage.removeItem('cartTemp');
+    localStorage.removeItem('enderecoTemp'); // Limpa endereço para o próximo pedido
+    
+    window.open(urlWhatsApp, '_blank');
+    window.location.href = 'index.html';
+}
 </script>
 </body>
 </html>

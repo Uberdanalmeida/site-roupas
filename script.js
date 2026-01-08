@@ -96,31 +96,49 @@ function toggleMenu() {
         document.getElementById('sidebar').classList.contains('active') ? 'block' : 'none';
 }
 
-// Alteração na função de Finalizar para levar à tela de pagamento
 document.getElementById('checkout-btn').onclick = function() {
+    // 1. Verifica se o carrinho está vazio
     if (cart.length === 0) {
-        alert("Seu carrinho está vazio!");
+        alert("O seu carrinho está vazio!");
         return;
     }
 
-    // 1. Salva o carrinho atual em um local temporário para a página de checkout ler
+    // 2. Verifica se o utilizador está logado
+    const usuario = localStorage.getItem('usuarioLogado');
+    if (!usuario) {
+        alert("Por favor, faça login ou registe-se para continuar.");
+        loginModal.style.display = 'flex'; // Abre o modal de login automaticamente
+        return;
+    }
+
+    // 3. Verifica se o CEP/Morada foi preenchido
+    const endereco = localStorage.getItem('enderecoTemp');
+    if (!endereco) {
+        alert("Por favor, consulte o seu CEP para calcular o frete e definir a morada de entrega.");
+        
+        // Opcional: Faz scroll suave até o campo de CEP para ajudar o utilizador
+        document.getElementById('cep-input').scrollIntoView({ behavior: 'smooth' });
+        document.getElementById('cep-input').focus();
+        return;
+    }
+
+    // Se passou em todas as verificações, prossegue para o pagamento
     const totalFormatado = document.getElementById('cart-total').innerText.replace('R$ ', '');
     localStorage.setItem('cartTemp', JSON.stringify(cart));
     localStorage.setItem('totalTemp', totalFormatado);
 
-    // 2. Cria o registro no histórico (como você já fazia)
+    // Salva no histórico (opcional, já que o WhatsApp será o canal oficial)
     const novoPedido = {
         id: Math.floor(Math.random() * 10000),
         data: new Date().toLocaleDateString('pt-BR'),
         itens: [...cart],
         total: cart.reduce((acc, item) => acc + (item.price * item.qty), 0)
     };
-
     let historico = JSON.parse(localStorage.getItem('meuHistorico')) || [];
     historico.push(novoPedido);
     localStorage.setItem('meuHistorico', JSON.stringify(historico));
 
-    // 3. Redireciona para a nova página de pagamento
+    // Redireciona para o checkout
     window.location.href = 'checkout.html';
 };
 
@@ -472,6 +490,7 @@ async function consultarFrete() {
             // Montando o endereço detalhado
             // data.logradouro = Rua/Avenida | data.bairro = Bairro | data.localidade = Cidade
             const enderecoCompleto = `${data.logradouro}, ${data.bairro} - ${data.localidade}/${data.uf}`;
+            localStorage.setItem('enderecoTemp', enderecoCompleto);
 
             resultContainer.innerHTML = `
                 <div class="shipping-info-detail">
@@ -488,6 +507,9 @@ async function consultarFrete() {
             
             btn.innerText = "Consultar";
             btn.disabled = false;
+            btn.innerHTML = "<i class='bx bx-check'></i> Morada Confirmada";
+            btn.style.background = "#28a745"; // Verde de sucesso
+            btn.style.color = "white"; 
         }, 600);
 
     } catch (error) {
