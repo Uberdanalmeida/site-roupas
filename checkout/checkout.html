@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finalizar Compra</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="checkout.css">
+</head>
+<body class="checkout-body">
+
+<header class="checkout-header">
+    <div id="cabeca">
+        <span class="header-title">FINALIZAR PAGAMENTO</span>
+    </div>
+</header>
+
+<div class="checkout-container">
+    <main class="payment-box">
+        <h3>Como você prefere pagar?</h3>
+        
+        <div class="method-select">
+            <div class="method-card active" onclick="selectMethod('card')">
+                <i class='bx bx-credit-card'></i><br>Cartão
+            </div>
+            <div class="method-card" onclick="selectMethod('pix')">
+                <i class='bx bx-qr-scan'></i><br>PIX
+            </div>
+            <div class="method-card" onclick="selectMethod('boleto')">
+                <i class='bx bx-barcode'></i><br>Boleto
+            </div>
+        </div>
+
+        <div id="form-card" class="payment-form">
+            <div class="input-group">
+                <label>Número do Cartão</label>
+                <input type="text" placeholder="0000 0000 0000 0000">
+            </div>
+            <div class="row">
+                <div class="input-group flex-2">
+                    <label>Validade</label>
+                    <input type="text" placeholder="MM/AA">
+                </div>
+                <div class="input-group flex-1">
+                    <label>CVV</label>
+                    <input type="password" placeholder="***">
+                </div>
+            </div>
+        </div>
+
+        <div id="form-pix" class="payment-form hidden pix-container">
+            <p>O QR Code será gerado após finalizar.</p>
+            <i class='bx bx-qr' id="qr-placeholder"></i>
+        </div>
+
+        <div id="form-boleto" class="payment-form hidden">
+            <p>O boleto será enviado para o seu e-mail cadastrado.</p>
+        </div>
+
+        <button class="btn-buy" onclick="concluir()">PAGAR AGORA</button>
+    </main>
+
+    <aside class="summary-box">
+        <h4>Resumo da compra</h4>
+        <div id="lista-resumo"></div>
+        <span>Total a pagar:</span>
+        <span id="valor-final" class="total-pay">R$ 0,00</span>
+    </aside>
+</div>
+
+<script src="checkout.js"></script>
+</body>
+</html>

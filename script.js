@@ -139,7 +139,7 @@ document.getElementById('checkout-btn').onclick = function() {
     localStorage.setItem('meuHistorico', JSON.stringify(historico));
 
     // Redireciona para o checkout
-    window.location.href = 'checkout.html';
+    window.location.href = 'checkout/checkout.html';
 };
 
 // Função para mostrar os pedidos no modal
