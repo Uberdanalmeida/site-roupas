@@ -624,6 +624,38 @@ footer {
     margin-top: 10px;
 }
 
+/* Ajuste do Modal de Histórico */
+#orders-modal .modal-content {
+    max-width: 600px;
+    width: 95%;
+    max-height: 85vh; /* Ocupa no máximo 85% da altura da tela */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Evita que o conteúdo vaze pelas bordas arredondadas */
+}
+
+/* Deixa apenas a lista de pedidos rolável */
+#orders-list {
+    overflow-y: auto; /* Cria a barra de rolagem */
+    padding-right: 10px;
+    margin-top: 10px;
+    flex-grow: 1; /* Faz a lista ocupar o espaço disponível */
+}
+
+/* Customização da barra de rolagem para ficar mais elegante */
+#orders-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+#orders-list::-webkit-scrollbar-thumb {
+    background-color: #2d005d;
+    border-radius: 10px;
+}
+
+#orders-list::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
 .btn-limpar {
     background: none;
     border: 1px solid #cc0000;

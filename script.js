@@ -148,28 +148,29 @@ function renderizarHistorico() {
     const historico = JSON.parse(localStorage.getItem('meuHistorico')) || [];
 
     if (historico.length === 0) {
-        ordersList.innerHTML = '<p style="text-align:center;">Nenhum pedido realizado.</p>';
+        ordersList.innerHTML = '<p style="text-align:center; padding: 20px;">Nenhum pedido realizado.</p>';
         return;
     }
 
     ordersList.innerHTML = historico.map(pedido => `
-        <div class="order-card" style="border:1px solid #ddd; padding:10px; margin-bottom:10px; border-radius:8px;">
-            <div class="order-header">
+        <div class="order-card" style="border:1px solid #eee; padding:15px; margin-bottom:15px; border-radius:8px; background: #f9f9f9;">
+            <div class="order-header" style="display:flex; justify-content:space-between; border-bottom:1px solid #ddd; padding-bottom:5px; margin-bottom:10px;">
                 <span><strong>Pedido:</strong> #${pedido.id}</span>
-                <span><strong>Data:</strong> ${pedido.data}</span>
+                <span style="color: #666; font-size: 0.9em;">${pedido.data}</span>
             </div>
-            <div class="order-items">
+            <div class="order-items" style="margin-bottom: 10px;">
                 ${pedido.itens.map(item => `
-                    <div style="font-size:12px;">• ${item.title} - R$ ${item.price.toFixed(2)}</div>
+                    <div style="font-size:13px; color: #444; margin-bottom: 3px;">
+                        • ${item.title} (x${item.qty || 1}) - R$ ${item.price.toFixed(2)}
+                    </div>
                 `).join('')}
             </div>
-            <div class="order-total-info">
-                <strong>Total: R$ ${pedido.total.toFixed(2).replace('.', ',')}</strong>
+            <div class="order-total-info" style="text-align:right; border-top: 1px dashed #ccc; pt-5px; margin-top:5px;">
+                <span style="font-size: 1.1em;">Total: <strong>R$ ${pedido.total.toFixed(2).replace('.', ',')}</strong></span>
             </div>
         </div>
-    `).reverse().join(''); // Mostra o mais recente primeiro
+    `).reverse().join('');
 }
-
 // Abrir e fechar modal de pedidos
 const ordersModal = document.getElementById('orders-modal');
 document.getElementById('open-orders').onclick = () => {
