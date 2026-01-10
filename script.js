@@ -524,3 +524,80 @@ function resetConsulta(btn, container) {
     btn.disabled = false;
     container.style.display = 'none';
 }
+
+// --- LÓGICA DE PAGINAÇÃO (MODO REPETIÇÃO) ---
+
+const containerProdutos = document.querySelector('.shop-content');
+const botoesPagina = document.querySelectorAll('.page-number');
+const btnAnterior = document.querySelector('.btn-nav:first-child');
+const btnProxima = document.querySelector('.btn-nav:last-child');
+
+let paginaAtual = 1;
+
+// Função para renderizar os produtos da página
+function carregarPagina(numeroPagina) {
+    paginaAtual = numeroPagina;
+    
+    // Limpa a vitrine atual
+    containerProdutos.innerHTML = '';
+
+    // Aqui usamos a sua lista 'produtosBusca' que já existe no seu script
+    // Vamos mostrar os 8 produtos (ou repetir se a lista for pequena)
+    produtosBusca.forEach(p => {
+        const productHtml = `
+            <div class="product-box">
+                <img src="${p.img}" alt="${p.title}" class="product-img" onclick="openProductModal('${p.title}', ${p.price}, '${p.img}')" style="cursor:pointer">
+                <h2 class="product-title">${p.title}</h2>
+                <span class="price">$${p.price.toFixed(2)}</span>
+                <i class='bx bx-shopping-bag add-cart' onclick="addToCart('${p.title}', ${p.price}, '${p.img}')"></i>
+            </div>
+        `;
+        containerProdutos.innerHTML += productHtml;
+    });
+
+    // Atualiza a interface visual
+    atualizarInterfacePaginacao();
+    
+    // Rola para o topo da vitrine para parecer que mudou
+    document.getElementById('MenuMain').scrollIntoView({ behavior: 'smooth' });
+}
+
+function atualizarInterfacePaginacao() {
+    // Remove classe ativa de todos e adiciona no atual
+    botoesPagina.forEach(btn => {
+        btn.classList.remove('active');
+        if (parseInt(btn.innerText) === paginaAtual) {
+            btn.classList.add('active');
+        }
+    });
+
+    // Gerencia o estado dos botões Anterior/Próxima
+    if (paginaAtual === 1) {
+        btnAnterior.classList.add('disabled');
+    } else {
+        btnAnterior.classList.remove('disabled');
+    }
+
+    if (paginaAtual === botoesPagina.length) {
+        btnProxima.classList.add('disabled');
+    } else {
+        btnProxima.classList.remove('disabled');
+    }
+}
+
+// Eventos de clique nos números
+botoesPagina.forEach(btn => {
+    btn.onclick = () => carregarPagina(parseInt(btn.innerText));
+});
+
+// Evento botão Anterior
+btnAnterior.onclick = (e) => {
+    e.preventDefault();
+    if (paginaAtual > 1) carregarPagina(paginaAtual - 1);
+};
+
+// Evento botão Próxima
+btnProxima.onclick = (e) => {
+    e.preventDefault();
+    if (paginaAtual < botoesPagina.length) carregarPagina(paginaAtual + 1);
+};

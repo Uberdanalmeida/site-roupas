@@ -480,6 +480,8 @@ main {
 .page-number {
     width: 35px; 
     height: 35px;
+    cursor: pointer;
+    transition: 0.3s;
 }
 /* Estilo específico para Anterior e Próximo (largura automática baseada no texto) */
 .btn-nav {
