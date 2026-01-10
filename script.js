@@ -12,14 +12,23 @@ document.getElementById('close-cart').onclick = () => cartSidebar.classList.remo
 
 // Função para adicionar ao carrinho
 // 1. Alterar a função de Adicionar
-function addToCart(title, price, img) {
-    // Verifica se o item já está no carrinho
-    const itemIndex = cart.findIndex(item => item.title === title);
+function addToCart(title, price, img, size = "M", color = "Padrão") {
+    // Agora o ID único considera título + cor + tamanho
+    const itemIndex = cart.findIndex(item => 
+        item.title === title && item.size === size && item.color === color
+    );
 
     if (itemIndex > -1) {
-        cart[itemIndex].qty += 1; // Se existe, só aumenta a quantidade
+        cart[itemIndex].qty += 1;
     } else {
-        cart.push({ title, price: parseFloat(price), img, qty: 1 }); // Se não, adiciona com qty: 1
+        cart.push({ 
+            title, 
+            price: parseFloat(price), 
+            img, 
+            qty: 1, 
+            size, 
+            color 
+        });
     }
     
     renderCart();
@@ -63,9 +72,9 @@ function renderCart() {
             <div class="item-info">
                 <h4>${item.title}</h4>
                 <div class="item-details">
-                    <p>Ref: #2FU-8279-120</p>
-                    <p>Tamanho: 39 | Cor: Padrão</p>
-                </div>
+                <p>Ref: #2FU-8279-120</p>
+                <p>Tamanho: ${item.size} | Cor: ${item.color}</p> 
+            </div>
                 <div class="quantity-selector">
                     <button onclick="changeQty(${index}, -1)">-</button>
                     <input type="text" value="${item.qty}" readonly>
@@ -260,31 +269,16 @@ const modalAddBtn = document.getElementById('modal-add-cart');
 // ADICIONE ESTE BLOCO ABAIXO DAS CONSTANTES DA SEÇÃO 7:
 
 function openProductModal(title, price, img) {
-    const productModal = document.getElementById('product-modal');
-    const modalImg = document.getElementById('modal-img');
-    const modalTitle = document.getElementById('modal-title');
-    const modalPrice = document.getElementById('modal-price');
-    const modalAddBtn = document.getElementById('modal-add-cart');
-    const thumbContainer = document.getElementById('modal-thumbnails');
-
-    // 1. Preenche dados básicos
-    modalImg.src = img;
-    modalTitle.innerText = title;
-    modalPrice.innerText = `R$ ${price.toFixed(2).replace('.', ',')}`;
-
-    // 2. Criar Miniaturas (Simulando 3 ângulos diferentes com a mesma imagem)
-    // Em um sistema real, você teria um array de imagens para cada produto
-    const imagensGaleria = [img, img, img]; 
+    // ... seu código existente ...
     
-    thumbContainer.innerHTML = imagensGaleria.map((src, index) => `
-        <img src="${src}" 
-             class="thumb-item ${index === 0 ? 'active' : ''}" 
-             onclick="document.getElementById('modal-img').src = '${src}'; updateThumbActive(this)">
-    `).join('');
-
-    // 3. Configura o botão comprar
+    // Resetar seleções ao abrir novo produto
+    selectedSize = "M"; 
+    selectedColor = "Preto";
+    // Garantir que os botões visuais voltem ao padrão 'M' e 'Preto'
+    
     modalAddBtn.onclick = () => {
-        addToCart(title, price, img);
+        // Passamos a cor e tamanho selecionados aqui
+        addToCart(title, price, img, selectedSize, selectedColor);
         closeProductModal();
     };
 
@@ -601,3 +595,32 @@ btnProxima.onclick = (e) => {
     e.preventDefault();
     if (paginaAtual < botoesPagina.length) carregarPagina(paginaAtual + 1);
 };
+
+// Variáveis globais para armazenar a escolha atual do modal
+let selectedSize = "M"; // Padrão
+let selectedColor = "Preto"; // Padrão
+
+// Adicione este listener para capturar cliques em Tamanhos
+document.querySelectorAll('.size-options button').forEach(btn => {
+    btn.addEventListener('click', function() {
+        document.querySelectorAll('.size-options button').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        selectedSize = this.innerText;
+    });
+});
+
+// Adicione este listener para capturar cliques em Cores
+document.querySelectorAll('.color-box').forEach(box => {
+    box.addEventListener('click', function() {
+        document.querySelectorAll('.color-box').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        
+        // Tenta pegar o nome da cor baseado no background ou um data-attribute
+        // Para este exemplo, vamos extrair do estilo ou definir manualmente
+        const corHex = this.style.backgroundColor;
+        selectedColor = corHex === 'black' ? 'Preto' : (corHex.includes('4b5320') ? 'Militar' : 'Cinza');
+        
+        // Atualiza o texto visual da cor no modal
+        document.querySelector('.color-selection strong').innerText = selectedColor;
+    });
+});
